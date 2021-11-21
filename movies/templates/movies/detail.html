@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h3>{{movie.pk}}번 째 영화 Detail</h3>
+  <hr>
+  <p>Title : {{movie.title}}</p>
+  {% comment %} movie like {% endcomment %}
+  <form action="{% url 'movies:likes' movie.pk %}" method="POST">
+    {% csrf_token %}
+    {% if user in article.like_users.all %}
+      <button>좋아요 취소</button>
+    {% else %}
+      <button>좋아요</button>
+    {% endif %}
+  </form>
+  <p>Release_date : {{movie.release_date}}</p>
+  <p>Popularity : {{movie.popularity}}</p>
+  <p>Vote_count : {{movie.vote_count}}</p>
+  <p>Vote_average : {{movie.vote_average}}</p>
+  <p>Overview : {{movie.overview}}</p>
+  <p>Poster_path :</p>
+    <img src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}" alt="">
+  <p>
+    {% for genre in movie.genres.all %}
+    {{ genre.name }}
+    {% endfor %}
+  </p>
+  <a href="{% url 'movies:index' %}">BACK</a>
+{% endblock %}

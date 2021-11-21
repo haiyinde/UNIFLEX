@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+   <h1>Detail</h1>
+  <hr>
+    <p>Movie : {{review.movie.title}}</p>
+    <p>Writer : {{review.user}}</p>
+    <p>Title : {{review.title}}</p>
+    <p>Rank : {{review.rank}}</p>
+    <p>Content : {{review.content}}</p>
+    <p>Created_at : {{review.created_at}}</p>
+    <p>Updated_at : {{review.updated_at}}</p>
+    <p>좋아요한 유저 수 : {{ review.like_users.all|length }}</p>
+    {% comment %} 좋아요 버튼 {% endcomment %}
+    <form action="{% url 'community:likes' review.pk %}" method="POST">
+      {% csrf_token %}
+      {% if user in review.like_users.all %}
+        <button class="btn btn-light"><i class="fas fa-heart" style="color:red"></i></button>
+      {% else %}
+        <button class="btn btn-light"><i class="far fa-heart" style="color:black"></i></button>
+      {% endif %}
+    </form>
+
+    {% comment %} 작성자라면 update 화면 출력{% endcomment %}
+    {% if user == review.user %}
+      <a href="{% url 'community:update' review.pk %}">[UPDATE]</a>
+      <form action="{% url 'community:delete' review.pk %}" method='POST'>
+        {% csrf_token %}
+        <input type="submit" value="DELETE">
+      </form>
+      {% endif %}
+    <a href="{% url 'community:index' %}">[back]</a>
+
+  <hr>
+  <h4>댓글 목록</h4>
+  {% if comments %}
+    <p><b>{{ comments |length }}개의 댓글이 있습니다.</b></p>
+  {% endif %}
+
+  <!-- {% for comment in comments %}
+  <p>{{ comment.content }} / 작성자: <a href="{% url 'accounts:profile' comment.user_id %}">{{ comment.user_id }}</a></p>
+  {% endfor %} -->
+
+  <ul>
+    {% for comment in comments %}
+      <li>
+        {{ comment.user }} - {{ comment.content }}
+        {% if user == comment.user %}
+          <form action="{% url 'community:comment_delete' review.pk comment.pk %}" method="POST" class="d-inline">
+            {% csrf_token %}
+            <input type="submit" value="DELETE">
+          </form>
+        {% endif %}
+      </li>
+    {% empty %}
+      <p>댓글이 없어요..</p>
+    {% endfor %}
+  </ul>
+  <hr>
+
+  {% comment %} login user면 comment form {% endcomment %}
+  {% if request.user.is_authenticated %}
+    <form action="{% url 'community:comment' review.pk %}" method="POST"> 
+      {% csrf_token %}
+      {{ comment_form }}
+      <input type="submit">
+    </form>
+  {% else %}
+    <a href="account:login">[LOGIN]</a>
+  {% endif %}
+{% endblock content %}

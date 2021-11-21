@@ -1,5 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Hi!</h1>
+  <h1>Community</h1>
+  {% if user.is_authenticated %}
+    <a href="{% url 'community:create' %}">[CREATE]</a>
+  {% else %}
+    <a href="{% url 'accounts:login' %}">[LOGIN]</a>
+  {% endif %}
+  
+  <hr>
+
+  {% for review in reviews %}
+    <p>Movie : {{review.movie.title}}</p>
+    <p>Writer : <a href="{% url 'accounts:profile' review.user.username %}">{{review.user}}</a></p>  
+    <p>Title : <a href="{% url 'community:detail' review.pk %}">{{review.title}}</a></p>  
+    <p>Rank : {{review.rank}}</p>
+    <hr> 
+  {% endfor %}
+
+
 {% endblock content %}

@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 class Genre(models.Model):
@@ -16,3 +17,7 @@ class Movie(models.Model):
     backdrop_path = models.CharField(max_length=200)
     # backdrop_path = models.TextField(null=True)
     genres = models.ManyToManyField(Genre)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.title

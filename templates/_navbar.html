@@ -1,0 +1,38 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'community:index' %}">Index</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      {% if request.resolver_match.app_name == 'movies' %}
+      <form class="form-inline my-2 my-lg-0" action="{% url 'movies:search' %}" method="get">
+        <input class="form-control mr-sm-2" type="search" placeholder="찾고싶은 영화를 검색하고 Enter! _〆(´Д｀ )" aria-label="Search" id="q" name="q"
+          value="{{ q }}">
+      </form>
+      {% endif %}
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          {% if request.user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link active" href="{% url 'community:create' %}">Create</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="{% url 'accounts:logout' %}">Logout</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="{% url 'accounts:profile' user.username %}">Profile</a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link active" href="{% url 'accounts:login' %}">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="{% url 'accounts:signup' %}">Signup</a>
+            </li>
+          {% endif %}
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
