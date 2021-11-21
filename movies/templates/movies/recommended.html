@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
+{% for movie_algo in my_friends_likes  %}
+  <p>{{movie_algo.title}}</p>
+  <p>{{movie_algo.overview}}</p>
+{% endfor %}
 
 <div class="container">
     <div class="row justify-content-start">
       {% for movie in recommended_movies %}
       <div class="card col-4 m-3" style="width: 18rem;">
-        <img src="{{movie.poster_path}}" class="card-img-top" alt="...">
+        <img src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}" class="card-img-top" alt="...">
         <div class="card-body">
           <h5 class="card-title">{{movie.title}}</h5>
           <p class="card-text">{{movie.overview|truncatechars:100}}</p>

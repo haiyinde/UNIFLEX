@@ -1,8 +1,11 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.decorators.http import require_safe
+from django.views.decorators.http import require_POST, require_safe
 from .models import Movie, Genre
 from .genre_info import GENRE
 from django.core.paginator import Paginator
+from django.http import JsonResponse
+import random
 
 # Create your views here.
 @require_safe
@@ -24,11 +27,18 @@ def detail(request, movie_pk):
 
 
 @require_safe
+@login_required
 def recommended(request):
-    recommended_movies = Movie.objects.order_by('-pk')[:12]
-
+    me = request.user
+    friends = me.followings.all()
+    my_friends_likes=[]
+    for friend in friends:
+        if friend.like_movies.all():
+            for friend_movie in friend.like_movies.all():
+                if friend_movie not in my_friends_likes:
+                    my_friends_likes.append(friend_movie)
     context = {
-        'recommended_movies': recommended_movies,
+        'my_friends_likes': my_friends_likes,
     }
     return render(request, 'movies/recommended.html', context)
 
@@ -50,12 +60,36 @@ def search(request):
 
     return render(request, 'movies/index.html', context)
 
+@require_POST
 def likes(request, movie_pk):
     if request.user.is_authenticated:
         movie = get_object_or_404(Movie, pk=movie_pk)
-        if movie.user.filter(pk=request.user.pk).exists():
-            movie.user.remove(request.user)
+        user = request.user
+        if movie.like_users.filter(pk=user.pk).exists():
+            movie.like_users.remove(user)
+            liked = False
         else:
-            movie.user.add(request.user)
-        return redirect('movies:detail', movie_pk)
-    return redirect('accounts:login')
+            movie.like_users.add(user)
+            liked = True
+        context = {
+            'liked': liked,
+            'movie': movie,
+        }
+        return render(request, 'movies/detail.html', context)
+    return redirect("accounts:login")
+
+
+def random_movie(request):
+    movies = Movie.objects.order_by('?')[:20]
+    moviesList = []
+
+    for movie in movies:
+        moviesList.append(
+            {
+                'title': movie.title,
+                'release_date': movie.release_date,
+                'vote_average': movie.vote_average,
+                'poster_path': movie.poster_path,
+            }
+        )
+    return JsonResponse(moviesList, safe=False)

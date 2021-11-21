@@ -46,6 +46,7 @@
       <li>
         {{ comment.user }} - {{ comment.content }}
         {% if user == comment.user %}
+          <a href="{% url 'community:comment_update' review.pk comment.pk%}">[UPDATE]</a>
           <form action="{% url 'community:comment_delete' review.pk comment.pk %}" method="POST" class="d-inline">
             {% csrf_token %}
             <input type="submit" value="DELETE">

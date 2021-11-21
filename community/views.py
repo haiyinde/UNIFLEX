@@ -57,10 +57,8 @@ def update(request, review_pk):
                 form.save()
                 return redirect('community:detail', review.pk)
             else:
-                print('3')
                 return redirect('community:detail', review.pk)
         else:
-            print('4')
             form = ReviewForm(instance=review)
     context = {
         'review': review,
@@ -96,9 +94,10 @@ def comment_delete(request, review_pk, comment_pk):
     return redirect('community:detail', review_pk)
 
 
-# check 필요!
-@require_POST
+@login_required
+@require_http_methods(['GET', 'POST'])
 def comment_update(request, review_pk, comment_pk):
+    review = get_object_or_404(Review, pk=review_pk)
     if request.user.is_authenticated:
         comment = get_object_or_404(Comment, pk=comment_pk)
         if request.method == 'POST':
@@ -112,6 +111,7 @@ def comment_update(request, review_pk, comment_pk):
         return redirect('community:index')
     context = {
         'comment': comment,
+        'review': review,
         'form': form,
     }
     return render(request, 'community/comment_update.html', context)

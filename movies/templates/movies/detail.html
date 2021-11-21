@@ -7,11 +7,13 @@
   {% comment %} movie like {% endcomment %}
   <form action="{% url 'movies:likes' movie.pk %}" method="POST">
     {% csrf_token %}
-    {% if user in article.like_users.all %}
-      <button>좋아요 취소</button>
+    {% if user in movie.like_users.all %}
+      <button class="btn btn-light"><i class="fas fa-heart" style="color:red"></i></button>
     {% else %}
-      <button>좋아요</button>
+      <button class="btn btn-light"><i class="far fa-heart" style="color:black"></i></button>
     {% endif %}
+
+
   </form>
   <p>Release_date : {{movie.release_date}}</p>
   <p>Popularity : {{movie.popularity}}</p>

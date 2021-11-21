@@ -23,7 +23,7 @@
   <hr>
 
   <h2>{{ person.username }}가 좋아하는 영화</h2>
-  {% for movie in person.movie_set.all %}
+  {% for movie in person.like_movies.all %}
     <div>{{ movie.title }}</div>
   {% endfor %}
 
