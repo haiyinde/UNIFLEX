@@ -1,6 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST, require_safe
+
+from accounts.views import login
 from .models import Movie, Genre
 from .genre_info import GENRE
 from django.core.paginator import Paginator
@@ -47,19 +49,20 @@ def search(request):
     q = request.GET.get('q', '')
     if q: 
         questions = questions.filter(title__icontains=q) # 제목에 q가 포함되어 있는 레코드만 필터링
-    paginator = Paginator(questions, 3)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    # paginator = Paginator(questions, 3)
+    # page_number = request.GET.get('page')
+    # page_obj = paginator.get_page(page_number)
 
     context = {
         'movies' : questions,
         'q' : q,
-        'page_obj' : page_obj,
-        'search_page': True,
+        # 'page_obj' : page_obj,
+        'search_page' : True,
     }
 
     return render(request, 'movies/index.html', context)
 
+@login_required
 @require_POST
 def likes(request, movie_pk):
     if request.user.is_authenticated:
@@ -79,6 +82,24 @@ def likes(request, movie_pk):
     return redirect("accounts:login")
 
 
+# def random_movie(request):
+#     movies = Movie.objects.order_by('?')[:20]
+#     moviesList = []
+
+#     for movie in movies:
+#         moviesList.append(
+#             {
+#                 'title': movie.title,
+#                 'release_date': movie.release_date,
+#                 'vote_average': movie.vote_average,
+#                 'poster_path': movie.poster_path,
+#             }
+#         )
+
+#     return render(request, 'movies/index.html', context)
+
+
+
 def random_movie(request):
     movies = Movie.objects.order_by('?')[:20]
     moviesList = []
@@ -93,3 +114,33 @@ def random_movie(request):
             }
         )
     return JsonResponse(moviesList, safe=False)
+
+
+    # mystery_movies= []
+    # sf_movies = []
+    # docu_movies= []
+    # thriller_movies= []
+    # comedy_movies=[]
+    # family_movies = []
+    # romance_movies= []
+
+
+def christmas(request):
+    movies_list = Movie.objects.all()
+    state = request.GET.get('state')
+    if state == 'alone':
+        genre = 35
+    elif state == 'couple':
+        genre = 28
+    elif state == 'freind':
+        genre = 28
+    elif state == 'family':
+        genre = 28
+    # genre = request.GET.get('genre_num')
+    movies= movies_list.filter(genres=genre)
+    context = {
+        'movies': movies,
+    }
+    return render(request, 'movies/christmas.html', context)
+
+    

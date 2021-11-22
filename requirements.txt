@@ -1,6 +1,7 @@
 asgiref==3.4.1
 beautifulsoup4==4.10.0
 Django==3.2.9
+django-bootstrap-pagination==1.7.1
 django-extensions==3.1.5
 django-rest-auth==0.9.5
 djangorestframework==3.12.4

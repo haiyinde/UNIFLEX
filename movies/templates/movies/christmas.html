@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+  <label for="state">당신은 12월 25일 날?😏</label>
+  <select name="state" id="state" required>
+    <option value="alone">혼자서🙋‍♀️</option>
+    {% comment %} diabled {% endcomment %}
+    <option value="couple">커플..💑</option> 
+    <option value="friend">친구랑👨🏻‍🤝‍👨🏻</option>
+    <option value="family">가족끼리👨‍👩‍👦</option>
+  </select>
+  {% for movie in movies %}
+    <h3>Christ-mas movie🎬 {{movie.title}}</h3>
+    <br>
+    <a href="{% url 'movies:detail' movie.pk %}"><img src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}" alt="movie_poster"></a>
+  {% endfor %}
+{% endblock content %}
