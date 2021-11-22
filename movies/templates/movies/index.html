@@ -7,13 +7,13 @@
 
   <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
-      <div class="carousel-item active">
+      <div class="carousel-item active" OnClick="location.href ='{% url 'accounts:signup' %}'">
         <img src="{% static 'movies/carousel_1.jpg' %}" class="d-block w-100" alt="..." style="cursor:pointer;">
       </div>
       <div class="carousel-item">
         <img src="{% static 'movies/carousel_2.jpg' %}" class="d-block w-100" alt="..." style="cursor:pointer;">
       </div>
-      <div class="carousel-item">
+      <div class="carousel-item" OnClick="location.href ='{% url 'movies:christmas' %}'">
         <img src="{% static 'movies/carousel_3.jpg' %}" class="d-block w-100" alt="..." style="cursor:pointer;">
       </div>
     </div>
@@ -65,7 +65,7 @@
         console.log(moviesList)
         moviesList.forEach((movie) => {
           const movieTitle = movie.title
-          const releaseDate = movie.release_date
+          {% comment %} const releaseDate = movie.release_date {% endcomment %}
           const voteAvg = movie.vote_average
           const posterPath = movie.poster_path
           

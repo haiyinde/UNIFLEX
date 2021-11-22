@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 def signup(request):
     # 로그인 되어있는 사용자라면 되돌려 줌
     if request.user.is_authenticated:
-        return redirect(request.GET.get('next') or 'community:index')
+        return redirect(request.GET.get('next') or 'movies:index')
 
     # 로그인이 안되어있는 사용자일 때,
     if request.method == 'POST':

@@ -1,14 +1,15 @@
 {% extends 'base.html' %}
-
+{% load bootstrap5 %}
 {% block content %}
   <h1>Login</h1>
   <form action="" method="POST">
     {% csrf_token %}
-    {{form.as_p}}
-    <a href="{% url 'accounts:signup' %}">[SIGNUP]</a>
-    <br>
-    <input type="submit" name="" id="">
+    {% bootstrap_form form %}
+    {% buttons %}
+      <button type="submit" class="btn btn-dark">Submit</button>
+    {% endbuttons %}
   </form>
+    <a href="{% url 'accounts:signup' %}">[SIGNUP]</a>
   
   
 {% endblock content %}

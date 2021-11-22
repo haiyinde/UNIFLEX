@@ -108,7 +108,7 @@ def random_movie(request):
         moviesList.append(
             {
                 'title': movie.title,
-                'release_date': movie.release_date,
+                # 'release_date': movie.release_date,
                 'vote_average': movie.vote_average,
                 'poster_path': movie.poster_path,
             }

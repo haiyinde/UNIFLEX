@@ -38,6 +38,7 @@ INSTALLED_APPS = [
 
     # 3rd party
     'bootstrap_pagination',
+    'bootstrap5',
 
     # django
     'django.contrib.admin',
