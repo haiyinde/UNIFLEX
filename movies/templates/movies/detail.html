@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h3>{{movie.pk}}번 째 영화 Detail</h3>
+  <!-- <h3>{{movie.pk}}번 째 영화 Detail</h3> -->
   <hr>
   <p>Title : {{movie.title}}</p>
   {% comment %} movie like {% endcomment %}
@@ -20,12 +20,12 @@
   <p>Vote_count : {{movie.vote_count}}</p>
   <p>Vote_average : {{movie.vote_average}}</p>
   <p>Overview : {{movie.overview}}</p>
-  <p>Poster_path :</p>
+  <!-- <p>Poster_path :</p> -->
     <img src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}" alt="">
   <p>
     {% for genre in movie.genres.all %}
     {{ genre.name }}
     {% endfor %}
   </p>
-  <a href="{% url 'movies:index' %}">BACK</a>
+  <a href="{% url 'movies:index' %}">[INDEX]</a>
 {% endblock %}

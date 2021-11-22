@@ -20,16 +20,29 @@
     <h3> {{humor}} </h3>
   {% endif %}
 
+
     <div class="container">
     <div class="row justify-content-start">
       {% for movie in movies %}
-        <div class="card col-4 m-3" style="width: 18rem;">
-        <img src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">{{movie.title}}</h5>
-          <p class="card-text">{{movie.overview|truncatechars:100}}</p>
-        </div>
-      </div>
+          <div class="card col-4 m-3" style="width: 18rem;">
+            <a href="{% url 'movies:detail' movie.pk %}">
+            <img src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}" class="card-img-top" alt="...">
+            </a>
+            <div class="card-body">
+            <a href="{% url 'movies:detail' movie.pk %}">
+            <h5 class="card-title">{{movie.title}}</h5>
+            </a>
+            {% if movie.overview %}
+            <a href="{% url 'movies:detail' movie.pk %}">
+            <p class="card-text">{{movie.overview|truncatechars:100}}</p>
+            </a>
+            {% else %}
+            <a href="{% url 'movies:detail' movie.pk %}">
+            <p class="card-text">영화의 overview가 없습니다 🤔</p>
+            </a>
+            {% endif %}
+            </div>
+          </div>
       {% endfor %}
     </div>
   </div>

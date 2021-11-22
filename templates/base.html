@@ -8,10 +8,13 @@
   <script src="https://kit.fontawesome.com/e30b1307ff.js" crossorigin="anonymous"></script>
   <link rel=stylesheet href="https://s3-us-west-2.amazonaws.com/colors-css/2.2.0/colors.min.css">
   {% bootstrap_css %}
-  <title> GHANEMA GAEUN HAEIN SSANEMA JUHO+ </title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+  <title> 플젝이름 뭘로하지 ㅇ_ㅇ </title>
 </head>
 {% load static %}
-<body id ="background"style="background-image: url('{% static "movies/background_4.png"%}')";>
+<body id ="background"style="background-image: url('{% static "movies/background_6.png"%}')";>
     {% include "_navbar.html" %}
   <div class="container">
     {% block content %}
@@ -21,10 +24,13 @@
 </body>
 </html>
 <style>
-  #bg{
-    background-size: 1800px 900px;
-    background-repeat: no-repeat;
+  #background{
+    {% comment %} background-color: #001f3f; {% endcomment %}
+    background-size: 500px;
     background-position: top;
     background-attachment: fixed;
+  }
+  h1, h2, h3, h4, h5, h6, p, span {
+    font-family: 'Jua', sans-serif;
   }
 </style>

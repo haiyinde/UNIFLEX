@@ -7,7 +7,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       {% if request.resolver_match.app_name == 'movies' %}
       <form class="form-inline my-2 my-lg-0" action="{% url 'movies:search' %}" method="get">
-        <input class="form-control mr-sm-2" type="search" placeholder="찾고싶은 영화를 검색하고 Enter! _〆(´Д｀ )" aria-label="Search" id="q" name="q"
+        <input class="form-control mr-lg-2" type="search" placeholder="찾고싶은 영화를 검색하고 Enter! _〆(´Д｀ )" aria-label="Search" id="q" name="q"
           value="{{ q }}">
       </form>
       {% endif %}
