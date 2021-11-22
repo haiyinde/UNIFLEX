@@ -4,7 +4,7 @@
     <label for="state">당신은 12월 25일 날?😏</label>
     <br>
     <div class="form-floating-height:add(3.5rem, $input-height-border)">
-      <select class="form-select" name="state" id="state" aria-label="Floating label select example">
+      <select class="form-select" name="state" id="state" >
         <option value="alone">혼자서🙋‍♀️</option>
         {% comment %} 💛disable 해도 재밌을지도...? {% endcomment %}
         <option value="couple" >커플..💑</option> 
@@ -29,11 +29,11 @@
             <img src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}" class="card-img-top" alt="...">
             </a>
             <div class="card-body">
-            <a href="{% url 'movies:detail' movie.pk %}">
+            <a id="a_line" href="{% url 'movies:detail' movie.pk %}" >
             <h5 class="card-title">{{movie.title}}</h5>
             </a>
             {% if movie.overview %}
-            <a href="{% url 'movies:detail' movie.pk %}">
+            <a href="{% url 'movies:detail' movie.pk %}" >
             <p class="card-text">{{movie.overview|truncatechars:100}}</p>
             </a>
             {% else %}
@@ -47,3 +47,9 @@
     </div>
   </div>
 {% endblock content %}
+
+<style>
+#form-select{
+  form-select-transition: input-transition;
+}
+</style>

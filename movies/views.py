@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.decorators.http import require_POST, require_safe
+from django.views.decorators.http import require_POST, require_safe, require_http_methods
 
 from accounts.views import login
 from .models import Movie, Genre
@@ -64,23 +64,29 @@ def search(request):
     return render(request, 'movies/index.html', context)
 
 @login_required
-@require_POST
+# @require_POST
+@require_http_methods(['GET', 'POST'])
 def likes(request, movie_pk):
-    if request.user.is_authenticated:
+    # if request.user.is_authenticated:
+    if request.method == 'POST':
         movie = get_object_or_404(Movie, pk=movie_pk)
         user = request.user
         if movie.like_users.filter(pk=user.pk).exists():
             movie.like_users.remove(user)
             liked = False
-        else:
+        else: 
             movie.like_users.add(user)
             liked = True
         context = {
             'liked': liked,
             'movie': movie,
         }
-        return render(request, 'movies/detail.html', context)
-    return redirect("accounts:login")
+        return redirect('movies:detail', movie_pk)
+    # login 후 next파라미터에 담긴 url로 이동했을때(GET)
+    elif request.method == 'GET':
+        return redirect('movies:detail', movie_pk)
+    # return render(request, 'movies/detail.html', context)
+    # return redirect("accounts:login")
 
 
 # def random_movie(request):
