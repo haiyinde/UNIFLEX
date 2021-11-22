@@ -40,6 +40,7 @@ def recommended(request):
                 if friend_movie not in my_friends_likes:
                     my_friends_likes.append(friend_movie)
     context = {
+        'friends': friends,
         'my_friends_likes': my_friends_likes,
     }
     return render(request, 'movies/recommended.html', context)
@@ -128,19 +129,33 @@ def random_movie(request):
 def christmas(request):
     movies_list = Movie.objects.all()
     state = request.GET.get('state')
-    if state == 'alone':
-        genre = 35
-    elif state == 'couple':
-        genre = 28
-    elif state == 'freind':
-        genre = 28
-    elif state == 'family':
-        genre = 28
-    # genre = request.GET.get('genre_num')
-    movies= movies_list.filter(genres=genre)
-    context = {
-        'movies': movies,
-    }
-    return render(request, 'movies/christmas.html', context)
+    if state:
+        # 12-모험, 10749-로맨스, 878-SF, 80-범죄, 53-스릴러, 35-코미디, 28-액션, 27-공포, 18-드라마, 14-판타지
+        if state == 'alone':
+            # 코미디 - 35
+            genre = 35
+            humor = '혼자서도 즐거운 크리스마스!🎄'
+        elif state == 'couple':
+            # 로맨스-10749
+            genre = 10749
+            humor = '달달한 로맨스 영화 어때요?💕'
+        elif state == 'friend':
+            # SF - 878
+            genre = 27
+            humor = '친구와 SF 세계로! 🛫'
+        elif state == 'family':
+            # 가족 - 10751
+            genre = 10751
+            humor = '주호도 볼 수 있는 가족 영화! 👶'
+        movie_genres = movies_list.filter(genres=genre)
+        # 랜덤으로 4개정도 선택해 드립니다!
+        movies = movie_genres.order_by('?')[:4]
+        context = {
+            'movies': movies,
+            'humor': humor,
+        }
+        return render(request, 'movies/christmas.html', context)
+    return render(request, 'movies/christmas.html')
+    
 
     
