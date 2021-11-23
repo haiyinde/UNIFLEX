@@ -11,4 +11,5 @@ urlpatterns = [
     path('random_movie/', views.random_movie, name='random_movie'),
     path('christmas/', views.christmas, name='christmas'),
     path('search/', views.search, name='search'),
+    path('test/', views.test, name='test'),
 ]

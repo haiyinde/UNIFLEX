@@ -128,6 +128,7 @@ def likes(request, review_pk):
         return redirect('community:detail', review.pk)
     return redirect('accounts:login')
 
+@login_required
 def detail(request, review_pk):
     review = get_object_or_404(Review, pk=review_pk)
     comments = review.comment_set.all()

@@ -8,6 +8,7 @@ from django.http import JsonResponse
 from .forms import CustomUserCreationForm
 from django.views.decorators.http import require_POST, require_http_methods
 from django.contrib.auth.decorators import login_required
+from movies.models import Movie
 # Create your views here.
 
 
@@ -38,7 +39,7 @@ def signup(request):
 @require_http_methods(['GET','POST'])
 def login(request):
     if request.user.is_authenticated:
-        return redirect('community:index')
+        return redirect(request.GET.get('next') or 'community:index')
 
     if request.method == 'POST':
         form = AuthenticationForm(request, request.POST)

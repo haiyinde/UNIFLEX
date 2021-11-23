@@ -5,7 +5,7 @@
   <form action="{% url 'community:comment_update' review.pk comment.pk%}" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    <input  type="submit">
+    <inpu type="submit">
   </form>
   <hr>
   <a href="{% url 'community:detail' review.pk %}">[BACK]</a>

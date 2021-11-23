@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
   <form action="{% url 'movies:christmas' %}">
-    <label for="state">당신은 12월 25일 날?😏</label>
-    <br>
-    <div class="form-floating-height:add(3.5rem, $input-height-border)">
+  <br>
+    <div class="form-floating-height:add(3.5rem, $input-height-border)" aria-label="Default select example">
       <select class="form-select" name="state" id="state" >
+        <option selected value="nope">12월 25일날 당신은?!😏</option>
         <option value="alone">혼자서🙋‍♀️</option>
         {% comment %} 💛disable 해도 재밌을지도...? {% endcomment %}
         <option value="couple" >커플..💑</option> 
@@ -20,7 +20,6 @@
     <h3> {{humor}} </h3>
   {% endif %}
 
-
     <div class="container">
     <div class="row justify-content-start">
       {% for movie in movies %}
@@ -29,15 +28,15 @@
             <img src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}" class="card-img-top" alt="...">
             </a>
             <div class="card-body">
-            <a id="a_line" href="{% url 'movies:detail' movie.pk %}" >
+            <a href="{% url 'movies:detail' movie.pk %}" class="text-decoration-none text-black">
             <h5 class="card-title">{{movie.title}}</h5>
             </a>
             {% if movie.overview %}
-            <a href="{% url 'movies:detail' movie.pk %}" >
+            <a href="{% url 'movies:detail' movie.pk %}" class="text-decoration-none text-black">
             <p class="card-text">{{movie.overview|truncatechars:100}}</p>
             </a>
             {% else %}
-            <a href="{% url 'movies:detail' movie.pk %}">
+            <a href="{% url 'movies:detail' movie.pk %}" class="text-decoration-none text-black">
             <p class="card-text">영화의 overview가 없습니다 🤔</p>
             </a>
             {% endif %}
@@ -48,8 +47,3 @@
   </div>
 {% endblock content %}
 
-<style>
-#form-select{
-  form-select-transition: input-transition;
-}
-</style>

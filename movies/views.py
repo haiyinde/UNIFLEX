@@ -30,6 +30,7 @@ def detail(request, movie_pk):
 
 @require_safe
 @login_required
+# @require_http_methods(['GET','POST'])
 def recommended(request):
     me = request.user
     friends = me.followings.all()
@@ -44,6 +45,7 @@ def recommended(request):
         'my_friends_likes': my_friends_likes,
     }
     return render(request, 'movies/recommended.html', context)
+
 
 def search(request):
     questions = Movie.objects.all()
@@ -108,16 +110,19 @@ def likes(request, movie_pk):
 
 
 def random_movie(request):
-    movies = Movie.objects.order_by('?')[:20]
+    movies = Movie.objects.order_by('?')[:6]
     moviesList = []
 
+
     for movie in movies:
+        # print(movie.pk)
         moviesList.append(
             {
                 'title': movie.title,
                 # 'release_date': movie.release_date,
                 'vote_average': movie.vote_average,
                 'poster_path': movie.poster_path,
+                'movie_pk': movie.pk,
             }
         )
     return JsonResponse(moviesList, safe=False)
@@ -153,6 +158,9 @@ def christmas(request):
             # 가족 - 10751
             genre = 10751
             humor = '주호도 볼 수 있는 가족 영화! 👶'
+        else:
+            return render(request, 'movies/christmas.html')
+
         movie_genres = movies_list.filter(genres=genre)
         # 랜덤으로 4개정도 선택해 드립니다!
         movies = movie_genres.order_by('?')[:4]
@@ -164,4 +172,44 @@ def christmas(request):
     return render(request, 'movies/christmas.html')
     
 
-    
+def test(request):
+    movies = Movie.objects.order_by('?')[:4]
+    moviesList = []
+    for movie in movies:
+        # print(movie.pk)
+        moviesList.append(
+            {
+                'title': movie.title,
+                'rating': movie.vote_average,
+                'background': movie.poster_path,
+                'synopsis': movie.overview,
+                'movie_pk': movie.pk,
+            }
+        )
+    return JsonResponse(moviesList, safe=False)
+
+"""
+{title: "The Avengers",
+    rating: 2.5,
+    hasWatched: false,
+    runtime: 118,
+    synopsis: "Earth's mightiest heroes must come together and learn to fight as a team if they are going to stop the mischievous Loki and his alien army from enslaving humanity.",
+    background: "url('https://pmcvariety.files.wordpress.com/2014/04/01-avengers-2012.jpg?w=1000&h=563&crop=1')"
+
+    movies = Movie.objects.order_by('?')[:6]
+    moviesList = []
+
+
+    for movie in movies:
+        # print(movie.pk)
+        moviesList.append(
+            {
+                'title': movie.title,
+                # 'release_date': movie.release_date,
+                'vote_average': movie.vote_average,
+                'poster_path': movie.poster_path,
+                'movie_pk': movie.pk,
+            }
+        )
+    return JsonResponse(moviesList, safe=False)
+"""

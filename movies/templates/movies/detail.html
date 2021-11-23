@@ -1,32 +1,58 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <!-- <h3>{{movie.pk}}번 째 영화 Detail</h3> -->
-  <hr>
-  <p>Title : {{movie.title}}</p>
-  {% comment %} movie like {% endcomment %}
-  <form action="{% url 'movies:likes' movie.pk %}" method="POST">
-    {% csrf_token %}
-    {% if user in movie.like_users.all %}
-      <button class="btn btn-light" style="border:none;" ><i class="fas fa-heart" style="color:red; border:none;"></i></button>
-    {% else %}
-      <button class="btn btn-light" style="border:none;" ><i class="far fa-heart" style="color:black; border:none;"></i></button>
-    {% endif %}
+  <div class="card mb-3">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}" class="img-fluid rounded-start" alt="...">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{movie.title}}</h5>
+          <span class="card-text">
+            {% for genre in movie.genres.all %}
+              {{ genre.name }}
+            {% endfor %}
+          </span>
+          <br>
+          <span class="card-text">⭐{{movie.vote_average}} |</span>
+          <span class="card-text">{{movie.vote_count}}명 의 사람들이 투표했습니다</span>
+          <p class="card-text"><small class="text-muted">{{movie.release_date}}에 개봉한 영화입니다</small></p>
+          <p class="card-text">
+            <form action="{% url 'movies:likes' movie.pk %}" method="POST">
+              {% csrf_token %}
+              {% if user in movie.like_users.all %}
+                <button class="btn btn-light btn-outline-light shadow-none"><i class="fas fa-heart" style="color:red; border:none;"></i></button>
+              {% else %}
+                <button class="btn btn-light btn-outline-light shadow-none"><i class="far fa-heart" style="color:black; border:none;"></i></button>
+              {% endif %}
+            </form>
+          </p>
+          <p class="card-text"><small class="text-muted">{{movie.overview}}</small></p>
+          
+        </div>
+      </div>
+    </div>
+  </div>
 
+  {% comment %} <div class="bg-light bg-gradient">
+    <div class="">
+      <h3>{{movie.title}}</h3>
+      <span>
+        <img src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}" alt="">
+      </span>
+      <span>
+        <p>
+          {% for genre in movie.genres.all %}
+          {{ genre.name }}
+          {% endfor %}
+        </p>
+        <a href="{% url 'movies:index' %}">[INDEX]</a>
+      
+        <p>Popularity : {{movie.popularity}}</p>
 
-  </form>
-  <p>Release_date : {{movie.release_date}}</p>
-  <p>Popularity : {{movie.popularity}}</p>
-  <p>Vote_count : {{movie.vote_count}}</p>
-  <p>Vote_average : {{movie.vote_average}}</p>
-  <p>Overview : {{movie.overview}}</p>
-  <!-- <p>Poster_path :</p> -->
-    <img src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}" alt="">
-  <p>
-    {% for genre in movie.genres.all %}
-    {{ genre.name }}
-    {% endfor %}
-  </p>
-  <a href="{% url 'movies:index' %}">[INDEX]</a>
+      </span>
+    </div>
+  </div> {% endcomment %}
 {% endblock %}
 

@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
-
+{% load bootstrap5 %}
 {% block content %}
-  <h1>CREATE</h1>
-  <form action="{% url 'community:create' %}" method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="작성">
-  </form>
+  <div style='color:white; font-size:3rem'>
+    <h1>CREATE</h1>
+    <form action="{% url 'community:create' %}" method="POST">
+      {% csrf_token %}
+      {% bootstrap_form form %}
+      <!-- {{ form.as_p }} -->
+      <input type="submit" value="작성">
+    </form>
+  </div>
   <a href="{% url 'community:index' %}">[back]</a>
 {% endblock content %}

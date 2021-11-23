@@ -3,97 +3,237 @@
 {% load bootstrap_pagination %}
 
 {% block content %}
-  <h1>Movies</h1>
+  <div class="p-3 mt-3 bg-light bg-gradient">
+    <h1>Movies</h1>
+    <p style="font-size: 23px; font-weight: bold; color: indianred; text-shadow: 1px 1px 1.2px midnightblue;">내용</p>
 
-  <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-      <div class="carousel-item active" OnClick="location.href ='{% url 'accounts:signup' %}'">
-        <img src="{% static 'movies/carousel_1.jpg' %}" class="d-block w-100" alt="..." style="cursor:pointer;">
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active" OnClick="location.href ='{% url 'accounts:signup' %}'">
+          <img src="{% static 'movies/carousel_1.jpg' %}" class="d-block w-100" alt="..." style="cursor:pointer;">
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'movies/carousel_2.jpg' %}" class="d-block w-100" alt="..." style="cursor:pointer;">
+        </div>
+        <div class="carousel-item" OnClick="location.href ='{% url 'movies:christmas' %}'">
+          <img src="{% static 'movies/carousel_3.jpg' %}" class="d-block w-100" alt="..." style="cursor:pointer;">
+        </div>
       </div>
-      <div class="carousel-item">
-        <img src="{% static 'movies/carousel_2.jpg' %}" class="d-block w-100" alt="..." style="cursor:pointer;">
-      </div>
-      <div class="carousel-item" OnClick="location.href ='{% url 'movies:christmas' %}'">
-        <img src="{% static 'movies/carousel_3.jpg' %}" class="d-block w-100" alt="..." style="cursor:pointer;">
-      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
+
+    <!-- 검색기능 출력 -->
+    {% if search_page %}
+      <h4 class="text-center fw-bold text-dark mt-1" style="border: 1px solid #C9C9C9; padding: 0.3em 1em;border-radius: 2px;">검색 결과를 가져왔어요!</h4>
+      <div class="container mt-5">
+        <div class="row row-cols-3">
+          {% for movie in movies %}
+            <div class="card ms-3 bg-light bg-gradient">
+              <a href="{% url 'movies:detail' movie.pk %}"><img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}" class="card-img-top rounded mx-auto d-block"></a>
+              <h6 class="card-title text-center fw-bold text-dark mt-1">{{movie.title}} </h6>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% else %}
+    <!-- 영화 랜덤 추천 -->
+      <div class="bg-light">
+        <div class="container-fluid text-center mt-3">
+          <h4>곧 회원이 될 당신에게 추천하는 영화!</h4>
+          <span>사실 그냥 무작위로 골라봤어요 😎</span><br>
+          <p>회원가입 한다면 당신에게 더 맞는 영화를 추천해줄지도?</p>
+          <button id="random" class="btn btn-outline-dark">추천받기</button>
+        </div>
+        <div id="card-group" class="card-group row row-cols-3">
+      </div>
+    {% endif %}
   </div>
+<style>
+@import url('https://fonts.googleapis.com/css?family=Raleway:100,400');
+body {
+  font-family: 'Raleway', sans-serif;
+  font-weight: thin;
+  background: black;
+}
+body:after{
+  content: "";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0;
+  z-index: -1;
+  width: 200%;
+  height: 200%;
+  background: url('https://i.pinimg.com/736x/f1/2e/2a/f12e2a1c7e8393322f71358a79139436--jedi-sith-episode-vii.jpg');
+  background-size: contain;
+  background-position: 600px -200px;
+  
+  filter: blur(30px);
+}
+.movie-card {
+  position: relative;
+  box-sizing: border-box;
+  width: 50%;
+  max-width: 800px;
+  height: 300px;
+  background-position: center;
+  background-size: cover;
+  margin: 4vh auto;
+  border-radius: 4px;
+  box-shadow: 2px 3px 12px rgba(0, 0, 0, .4);
+  color: white;
+  padding: 2vh 3%;
+}
+.movie-card:after{
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(to right, rgba(40,40,60,1) 0%,rgba(40,0,60,0) 90%);
+  background-blend-mode: multiply;
+  will-change: transform;
+  z-index: 0;
+}
 
-  <!-- 검색기능 출력 -->
-  {% if search_page %}
-    <h4 class="text-center fw-bold text-dark mt-1">검색 결과를 가져왔어요!</h4>
-    <div class="container mt-5">
-      <div class="row row-cols-3">
-        {% for movie in movies %}
-          <div class="card ms-3 bg-light bg-gradient">
-            <a href="{% url 'movies:detail' movie.pk %}"><img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}" class="card-img-top rounded mx-auto d-block"></a>
-            <h6 class="card-title text-center fw-bold text-dark mt-1">{{movie.title}} </h6>
-          </div>
-        {% endfor %}
-      </div>
-    </div>
-  {% else %}
-  <!-- 영화 랜덤 추천 -->
-    <div class="container-fluid text-center mt-3">
-      <h4>곧 회원이 될 당신에게 추천하는 영화!</h4>
-      <span>사실 그냥 무작위로 골라봤어요 😎</span><br>
-      <p>회원가입 한다면 당신에게 더 맞는 영화를 추천해줄지도?</p>
-      <button id="random" class="btn btn-outline-dark">추천받기</button>
-    </div>
-    <div id="card-group" class="card-group row row-cols-3">
-  {% endif %}
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script>
-    const randomButton = document.querySelector('#random')
+h1 {
+  font-size: 170%;
+  position: relative;
+  z-index: 10;
+}
+span {
+  display: inline-block;
+  position: relative;
+  z-index: 10;
+  margin-right: 80px;
+  color: rgb(210, 210, 210);
+}
+.watch {
+  display: block;
+  border: 1px solid white;
+  border-radius: 4px;
+  position: relative;
+  z-index: 10;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  background: rgba(0, 0, 0, .3);
+  margin: 20px 0px;
+  outline: none;
+  box-shadow: 0 0 10px rgba(0,0,0,.5);
+  transition: all .2s;
+}
+button:hover {
+  background: rgba(255, 255, 255, .8);
+  color: black;
+  box-shadow: 0 0 10px rgba(255,255,255,.5);
+  mix-blend-mode: screen;
+}
+button:active {
+  transform: translateY(2px);
+}
+p {
+  position: relative;
+  z-index: 10;
+  font-size: .8em;
+  width: 60%;
+  height: 35%;
+}
 
-    randomButton.addEventListener('click', function (event) {
-      axios({
-        method: 'get',
-        url: 'http://127.0.0.1:8000/movies/random_movie/'
-      })
-      .then(function (res) {
-        console.log(res)
-        const moviesList = res.data
-        console.log(moviesList)
-        moviesList.forEach((movie) => {
-          const movieTitle = movie.title
-          {% comment %} const releaseDate = movie.release_date {% endcomment %}
-          const voteAvg = movie.vote_average
-          const posterPath = movie.poster_path
-          
-          const div1 = document.createElement('div')
-          div1.setAttribute('class', 'col')
-          const div2 = document.createElement('div')
-          div2.setAttribute('class', 'card')
-          const img = document.createElement('img')
-          img.setAttribute('src', `https://image.tmdb.org/t/p/w500${posterPath}`)
-          img.setAttribute('class', 'card-img-top')
-          const div3 = document.createElement('div')
-          div3.setAttribute('class', 'card-body')
-          const cardTitle = document.createElement('h6')
-          cardTitle.setAttribute('class', 'card-title text-center fw-bold')
-          cardTitle.innerText = movieTitle
-          const cardText = document.createElement('p')
-          cardText.setAttribute('class', 'card-text text-center')
-          cardText.innerText = `⭐ ${voteAvg}`
+@media (max-width: 768px) {
+  body {
+/*     background: none; */
+  }
+  .movie-card {
+    width: 75%;
+    height: 200px;
+  }
+  h1 {
+  font-size: 120%;
+  }
+  p {
+    display: none;
+/*     overflow: hidden;
+    width: 100%;
+    height: 30%; */
+  }
+  .watch {
+    margin: 5% auto;
+  }
+}
+@media (max-width: 500px) {
+  .movie-card {
+    width: 100%;
+  }
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  const randomButton = document.querySelector('#random')
 
-          const parentDiv = document.querySelector('#card-group')
-          parentDiv.appendChild(div1)
-          div1.appendChild(div2)
-          div2.append(img, div3)
-          div3.append(cardTitle)
-          div3.append(cardText) 
-        })
+  randomButton.addEventListener('click', function (event) {
+    axios({
+      method: 'get',
+      url: 'http://127.0.0.1:8000/movies/test/'
+    })
+    .then(function (res) {
+      const moviesList = res.data
+      console.log(moviesList)
+      moviesList.forEach((movie) => {
+        const movieTitle = movie.title
+        const movieRating = movie.rating
+        const movieBackground = movie.background
+        console.log(movieBackground)
+        const bgUrl = "url('https://image.tmdb.org/t/p/w500" + movieBackground + "')"
+        console.log(bgUrl)
+        const movieSynopsis = movie.synopsis
+        const moviePk = movie.movie_pk
+
+        // card
+        var card = document.createElement('div');
+        card.setAttribute("class", "movie-card");
+        card.style.backgroundImage = bgUrl
+
+        // to detail page
+        const a = document.createElement('a')
+        a.setAttribute('href', `http://127.0.0.1:8000/movies/${moviePk}`)
+
+        // title
+        var title = document.createElement('h1');
+        title.innerText = movieTitle;
+        title.appendChild(a);
+        card.appendChild(title);
+
+        // rating
+        var star = document.createElement("i");
+        star.setAttribute("class", "fas fa-star");
+        star.style.fontSize = "0.7em"
+        star.style.color = "#ffff00"
+        var rating = document.createElement('span');
+        rating.innerText = movieRating + " ";
+        rating.appendChild(star);
+        card.appendChild(rating);
+        
+        // synopsis
+        var synopsis = document.createElement('p');
+        synopsis.innerText = movieSynopsis;
+        card.appendChild(synopsis);
+        
+        document.body.appendChild(card);
       })
     })
-  </script>
+  })
+</script>
 
 {% endblock %}

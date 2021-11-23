@@ -1,26 +1,30 @@
 {% extends 'base.html' %}
-
+{% load bootstrap5 %}
 {% block content %}
    <h1>Detail</h1>
   <hr>
+  <div style='color:white; font-size:20pt'>
     <p>Movie : {{review.movie.title}}</p>
     <p>Writer : {{review.user}}</p>
-    <p>Title : {{review.title}}</p>
+    <div>
+      {% comment %} 좋아요 버튼 {% endcomment %}
+      <form class="form-inline" action="{% url 'community:likes' review.pk %}" method="POST">
+        <span>Title : {{review.title}}</span>
+        {% csrf_token %}
+        {% if user in review.like_users.all %}
+        <button class="btn shadow-none"><i class="fas fa-heart" style="color:red; border:none;"></i></button>
+        {% else %}
+        <button class="btn shadow-none"><i class="far fa-heart" style="color:black; border:none;"></i></button>
+        {% endif %}
+        {{ review.like_users.all|length }}
+      </form>
+    </div>
     <p>Rank : {{review.rank}}</p>
     <p>Content : {{review.content}}</p>
     <p>Created_at : {{review.created_at}}</p>
     <p>Updated_at : {{review.updated_at}}</p>
-    <p>좋아요한 유저 수 : {{ review.like_users.all|length }}</p>
-    {% comment %} 좋아요 버튼 {% endcomment %}
-    <form action="{% url 'community:likes' review.pk %}" method="POST">
-      {% csrf_token %}
-      {% if user in review.like_users.all %}
-        <button class="btn btn-light"><i class="fas fa-heart" style="color:red"></i></button>
-      {% else %}
-        <button class="btn btn-light"><i class="far fa-heart" style="color:black"></i></button>
-      {% endif %}
-    </form>
 
+  </div>
     {% comment %} 작성자라면 update 화면 출력{% endcomment %}
     {% if user == review.user %}
       <a href="{% url 'community:update' review.pk %}">[UPDATE]</a>

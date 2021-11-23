@@ -1,53 +1,173 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>{{ person.username }}'s profile</h1>
-  {% with followings=person.followings.all followers=person.followers.all %}
-    <div>
-      <div>팔로잉 수 : {{ followings|length }} / 팔로워 수 : {{ followers|length }}</div>
+
+<div style="color:white;">
+	<h1> {{ person.username }}'s profile</h1>
+	{% with followings=person.followings.all followers=person.followers.all %}
+		<div>
+			<div>팔로잉 수 : {{ followings|length }} / 팔로워 수 : {{ followers|length }}</div>
+		</div>
+		{% if user != person %}
+			<div>
+				<form action="{% url 'accounts:follow' person.pk %}" method="POST">
+					{% csrf_token %}
+					{% if user in followers %}
+						<button>Unfollow</button>
+					{% else %}
+						<button>follow</button>
+					{% endif %}
+				</form>
+			</div>
+		{% endif %}
+	{% endwith %}
+
+
+<div class="wrapper">
+  <ul class="tabs clearfix" data-tabgroup="first-tab-group">
+    <li><a href="#tab1" class="active">LIKE Movies</a></li>
+    <li><a href="#tab2">My Reviews</a></li>
+    <li><a href="#tab3">My Comments</a></li>
+    <li><a href="#tab4">LIKE Reviews</a></li>
+  </ul>
+  <section id="first-tab-group" class="tabgroup">
+    <div id="tab1">
+     <h2>{{ person.username }}가 좋아하는 영화</h2>
+      {% for movie in person.like_movies.all %}
+        <div>{{ movie.title }}</div>
+      {% endfor %}
     </div>
-    {% if user != person %}
-      <div>
-        <form action="{% url 'accounts:follow' person.pk %}" method="POST">
-          {% csrf_token %}
-          {% if user in followers %}
-            <button>Unfollow</button>
-          {% else %}
-            <button>follow</button>
-          {% endif %}
-        </form>
-      </div>
-    {% endif %}
-  {% endwith %}
+    <div id="tab2">
+      <h2>{{ person.username }}가 작성한 게시글</h2>
+      {% for review in person.review_set.all %}
+        <div>{{ review.title }}</div>
+      {% endfor %}    
+    </div>
+    <div id="tab3">
+      <h2>{{ person.username }}가 작성한 댓글</h2>
+      {% for comment in person.comment_set.all %}
+        <div>{{ comment.content }}</div>
+      {% endfor %}
+    </div>
+    <div id="tab4">
+     <h2>{{ person.username }}가 좋아요를 누른 게시글</h2>
+      {% for review in person.like_reviews.all %}
+        <div>{{ review.title }}</div>
+      {% endfor %}    
+    </div>
+  </section>
+</div>
 
-  <hr>
 
-  <h2>{{ person.username }}가 좋아하는 영화</h2>
-  {% for movie in person.like_movies.all %}
-    <div>{{ movie.title }}</div>
-  {% endfor %}
+<style>
+* {
+    margin: 0;
+    padding: 0;
+}
 
-  <hr>
+body {
+    background: url("https://westfieldcc.files.wordpress.com/2011/10/simple-blur-ipad-background.jpg") no-repeat center center fixed;
+    background-size: cover;
+}
 
-  <h2>{{ person.username }}가 작성한 게시글</h2>
-  {% for review in person.review_set.all %}
-    <div>{{ review.title }}</div>
-  {% endfor %}
+.wrapper {
+    margin: 50px auto;
+    width: 80%;
+    font-family: sans-serif;
+    color: #98927C;
+    font-size: 14px;
+    line-height: 24px;
+    max-width: 600px;
+    min-width: 340px;
+    overflow: hidden;
+}
 
-  <hr>
+.tabs li {
+    list-style: none;
+    float: left;
+    width: 25%;
+}
 
-  <h2>{{ person.username }}가 작성한 댓글</h2>
-  {% for comment in person.comment_set.all %}
-    <div>{{ comment.content }}</div>
-  {% endfor %}
+.tabs a {
+    font-size:0.5rem;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    position: relative;
+    text-transform: uppercase;
+    color: #FFF;
+    height: 70px;
+    line-height: 90px;
+    background: linear-gradient(165deg, transparent 29%, #322d85 30%);
+}
 
-  <hr>
+.tabs a:hover, .tabs a.active {
+    background: linear-gradient(165deg, transparent 29%, #F2EEE2 30%);
+    color: #98927C;
+}
 
-  <h2>{{ person.username }}가 좋아요를 누른 게시글</h2>
-  {% for review in person.like_reviews.all %}
-    <div>{{ review.title }}</div>
-  {% endfor %}
+.tabs a:before {
+    content: '';
+    position: absolute;
+    z-index: 11;
+    left: 100%;
+    top: -100%;
+    height: 70px;
+    line-height: 90px;
+    width: 0;
+    border-bottom: 70px solid rgba(0, 0, 0, 0.1);
+    border-right: 7px solid transparent;
+}
 
-  <a href="{% url 'community:index' %}">[INDEX]</a>
+.tabs a.active:before {
+    content: '';
+    position: absolute;
+    z-index: 11;
+    left: 100%;
+    top: -100%;
+    height: 70px;
+    line-height: 90px;
+    width: 0;
+    border-bottom: 70px solid rgba(0, 0, 0, 0.2);
+    border-right: 20px solid transparent;
+}
+
+.tabgroup {
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.tabgroup div {
+    padding: 30px;
+    background: #1f1c4d;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+</style>
+
+<script>
+$('.tabgroup > div').hide();
+
+$('.tabgroup > div:first-of-type').show();
+
+$('.tabs a').click(function(e){
+  e.preventDefault();
+    var $this = $(this),
+        tabgroup = '#'+$this.parents('.tabs').data('tabgroup'),
+        others = $this.closest('li').siblings().children('a'),
+        target = $this.attr('href');
+    others.removeClass('active');
+    $this.addClass('active');
+    $(tabgroup).children('div').hide();
+    $(target).show();
   
+})
+
+</script>
+
 {% endblock content %}
