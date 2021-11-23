@@ -6,7 +6,7 @@
       <div class="container">
         <div class="row justify-content-start">
           {% for movie in my_friends_likes %}
-          <div class="card col-4 m-3" style="width: 18rem;">
+          <div class="card col-3 m-3" style="width: 18rem;">
             <a href="{% url 'movies:detail' movie.pk %}">
               <img src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}" class="card-img-top" alt="...">
             </a>
@@ -25,9 +25,10 @@
     {% endif %}
   {% comment %} following 하는 친구가 없댜! {% endcomment %}
   {% else %}
-    <p>follow한 친구가 없네요 ㅠㅠ</p>
-    <p>follow 할 친구를 찾으러 가볼까요?!</p>
-    <a href="{% url 'community:index' %}">community로!</a>
+  <br>
+    <p style="color:white; font-size:2rem">follow한 친구가 없네요 ㅠㅠ</p>
+    <p style="color:white; font-size:2rem">follow 할 친구를 찾으러 가볼까요?!</p>
+    <a href="{% url 'community:index' %}" style=" color:white; font-size:3rem">community로!</a>
   {% endif %}
 {% comment %} {% for movie_algo in my_friends_likes  %}
   <p>{{movie_algo.title}}</p>

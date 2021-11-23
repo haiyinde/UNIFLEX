@@ -10,6 +10,7 @@ urlpatterns = [
     path('recommended/', views.recommended, name='recommended'),
     path('random_movie/', views.random_movie, name='random_movie'),
     path('christmas/', views.christmas, name='christmas'),
+    # path('christmas/<str:state>/', views.aaa, name='christmas_detail'),
     path('search/', views.search, name='search'),
     path('test/', views.test, name='test'),
 ]

@@ -33,26 +33,65 @@
   <section id="first-tab-group" class="tabgroup">
     <div id="tab1">
      <h2>{{ person.username }}가 좋아하는 영화</h2>
-      {% for movie in person.like_movies.all %}
-        <div>{{ movie.title }}</div>
-      {% endfor %}
+        <div class="container">
+        <div class="row justify-content-start">
+          {% for movie in person.like_movies.all %}
+              <div class="card col-4 m-3" style="width: 18rem;">
+                <a href="{% url 'movies:detail' movie.pk %}">
+                <img src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}" class="card-img-top" alt="...">
+                </a>
+                <div class="card-body">
+                <a href="{% url 'movies:detail' movie.pk %}" class="text-decoration-none text-black" style="color:white;">
+                <h5 class="card-title" style="color:white;">{{movie.title}}</h5>
+                </a>
+                {% if movie.overview %}
+                <a href="{% url 'movies:detail' movie.pk %}" class="text-decoration-none text-black">
+                <p class="card-text" style="color:white;">{{movie.overview|truncatechars:100}}</p>
+                </a>
+                {% else %}
+                <a href="{% url 'movies:detail' movie.pk %}" class="text-decoration-none text-black">
+                <p class="card-text" style="color:white;">영화의 overview가 없습니다 🤔</p>
+                </a>
+                {% endif %}
+                </div>
+              </div>
+          {% endfor %}
+        </div>
+      </div>
     </div>
     <div id="tab2">
       <h2>{{ person.username }}가 작성한 게시글</h2>
       {% for review in person.review_set.all %}
-        <div>{{ review.title }}</div>
+        <div class="card" style="width:18rem;">
+          <div class="card-body">
+            <h5 class="card-title">{{review.movie.title}}</h5>
+            <h5 class="card-title">{{review.title}}</h5>
+            <p class="card-text">{{review.content}}</p>
+          </div>
+        </div>
       {% endfor %}    
     </div>
     <div id="tab3">
       <h2>{{ person.username }}가 작성한 댓글</h2>
       {% for comment in person.comment_set.all %}
-        <div>{{ comment.content }}</div>
+        <div class="card" style="width:18rem;">
+          <div class="card-body">
+            <h5 class="card-title">{{ comment.review.title }}</h5>
+            <p class="card-text">{{ comment.content }}</p>
+          </div>
+        </div>
       {% endfor %}
     </div>
     <div id="tab4">
      <h2>{{ person.username }}가 좋아요를 누른 게시글</h2>
       {% for review in person.like_reviews.all %}
-        <div>{{ review.title }}</div>
+       <div class="card" style="width:18rem;">
+          <div class="card-body">
+            <h5 class="card-title">{{review.movie.title}}</h5>
+            <p class="card-text">{{review.title}}</p>
+            <h5 class="card-footer text-end">{{review.user}}</h5>
+          </div>
+        </div>
       {% endfor %}    
     </div>
   </section>
@@ -77,8 +116,8 @@ body {
     color: #98927C;
     font-size: 14px;
     line-height: 24px;
-    max-width: 600px;
-    min-width: 340px;
+    max-width: 1200px;
+    min-width: 600px;
     overflow: hidden;
 }
 

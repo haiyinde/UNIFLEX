@@ -3,7 +3,7 @@
 {% load bootstrap_pagination %}
 
 {% block content %}
-  <div class="p-3 mt-3 bg-light bg-gradient">
+  <div class="p-3 mt-3 bg-gradient" style="background:#161a3b">
     <h1>Movies</h1>
     <p style="font-size: 23px; font-weight: bold; color: indianred; text-shadow: 1px 1px 1.2px midnightblue;">내용</p>
 
@@ -31,7 +31,7 @@
 
     <!-- 검색기능 출력 -->
     {% if search_page %}
-      <h4 class="text-center fw-bold text-dark mt-1" style="border: 1px solid #C9C9C9; padding: 0.3em 1em;border-radius: 2px;">검색 결과를 가져왔어요!</h4>
+      <h4 class="text-center fw-bold text-secondary mt-1" style="border: 1px solid #C9C9C9; padding: 0.3em 1em;border-radius: 2px;">검색 결과를 가져왔어요!</h4>
       <div class="container mt-5">
         <div class="row row-cols-3">
           {% for movie in movies %}
@@ -44,18 +44,20 @@
       </div>
     {% else %}
     <!-- 영화 랜덤 추천 -->
-      <div class="bg-light">
+      <div style="background:#1e2245; ">
         <div class="container-fluid text-center mt-3">
-          <h4>곧 회원이 될 당신에게 추천하는 영화!</h4>
+          <h4 style="color:white">곧 회원이 될 당신에게 추천하는 영화!</h4>
           <span>사실 그냥 무작위로 골라봤어요 😎</span><br>
           <p>회원가입 한다면 당신에게 더 맞는 영화를 추천해줄지도?</p>
-          <button id="random" class="btn btn-outline-dark">추천받기</button>
+          <button id="random" class="btn" style="color:white; text-decoration:none"><i class="fas fa-chevron-down"></i></button>
         </div>
         <div id="card-group" class="card-group row row-cols-3">
       </div>
     {% endif %}
   </div>
 <style>
+
+
 @import url('https://fonts.googleapis.com/css?family=Raleway:100,400');
 body {
   font-family: 'Raleway', sans-serif;

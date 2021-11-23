@@ -5,7 +5,7 @@
 {% comment %}  {% endcomment %}
   <div class="card">
     {% for review in reviews %}
-      <div class="card bg-dark text-white">
+      <div class="card bg-dark text-white col-3">
         <img src="https://image.tmdb.org/t/p/w500{{ review.movie.poster_path }}" class="card-img" alt="...">
         <div class="card-img-overlay">
           <h5 class="card-title"><a href="{% url 'community:detail' review.pk %}">{{review.title}}</h5>

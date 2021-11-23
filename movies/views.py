@@ -163,10 +163,11 @@ def christmas(request):
 
         movie_genres = movies_list.filter(genres=genre)
         # 랜덤으로 4개정도 선택해 드립니다!
-        movies = movie_genres.order_by('?')[:4]
+        movies = movie_genres.order_by('?')[:6]
         context = {
             'movies': movies,
             'humor': humor,
+            'state': state,
         }
         return render(request, 'movies/christmas.html', context)
     return render(request, 'movies/christmas.html')

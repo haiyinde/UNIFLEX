@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
-  <form action="{% url 'movies:christmas' %}">
+  <form action="{% url 'movies:christmas' %}" id="state">
   <br>
     <div class="form-floating-height:add(3.5rem, $input-height-border)" aria-label="Default select example">
-      <select class="form-select" name="state" id="state" >
-        <option selected value="nope">12월 25일날 당신은?!😏</option>
+      <select class="form-select" name="state" id="state">
+        <option value="nope">12월 25일날 당신은?!😏</option>
         <option value="alone">혼자서🙋‍♀️</option>
         {% comment %} 💛disable 해도 재밌을지도...? {% endcomment %}
         <option value="couple" >커플..💑</option> 
@@ -14,16 +14,17 @@
     <input type="submit" name="" id="">
     </div>
   </form>
-  
+  {{state}}
+
   {% if humor %}
-    <p>Christ-mas movie🎬 {{movie.title}}</p>
-    <h3> {{humor}} </h3>
+    <p style="color:white">🎄Christ-mas movie🎬 {{movie.title}}</p>
+    <h3 style="color:white"> {{humor}} </h3>
   {% endif %}
 
     <div class="container">
     <div class="row justify-content-start">
       {% for movie in movies %}
-          <div class="card col-4 m-3" style="width: 18rem;">
+          <div class="card col-3 m-3" style="width: 18rem;">
             <a href="{% url 'movies:detail' movie.pk %}">
             <img src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}" class="card-img-top" alt="...">
             </a>

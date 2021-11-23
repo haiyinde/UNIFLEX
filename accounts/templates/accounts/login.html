@@ -2,14 +2,13 @@
 {% load bootstrap5 %}
 {% block content %}
   <h1>Login</h1>
-  <form action="" method="POST">
+  <form action="" method="POST" style="color:white; background:back; opacity:0.9 ;">
     {% csrf_token %}
-    {% bootstrap_form form %}
-    {% buttons %}
-      <button type="submit" class="btn btn-dark">Submit</button>
-    {% endbuttons %}
+    {% bootstrap_form form%}
+
+      <button type="submit" class="btn btn-dark btn-m float-right m-1">Login</button>
+
   </form>
-    <a href="{% url 'accounts:signup' %}">[SIGNUP]</a>
-  
+      <button class="btn btn-dark btn-m  float-right m-1"><a href="{% url 'accounts:signup' %}" style="text-decoration:none; color:white">SIGNUP</a></button>  
   
 {% endblock content %}
