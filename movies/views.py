@@ -162,7 +162,7 @@ def christmas(request):
             return render(request, 'movies/christmas.html')
 
         movie_genres = movies_list.filter(genres=genre)
-        # 랜덤으로 4개정도 선택해 드립니다!
+        # 랜덤으로 6개정도 선택해 드립니다!
         movies = movie_genres.order_by('?')[:6]
         context = {
             'movies': movies,
@@ -183,34 +183,8 @@ def test(request):
                 'title': movie.title,
                 'rating': movie.vote_average,
                 'background': movie.poster_path,
-                'synopsis': movie.overview,
+                'synopsis': movie.overview[:200],
                 'movie_pk': movie.pk,
             }
         )
     return JsonResponse(moviesList, safe=False)
-
-"""
-{title: "The Avengers",
-    rating: 2.5,
-    hasWatched: false,
-    runtime: 118,
-    synopsis: "Earth's mightiest heroes must come together and learn to fight as a team if they are going to stop the mischievous Loki and his alien army from enslaving humanity.",
-    background: "url('https://pmcvariety.files.wordpress.com/2014/04/01-avengers-2012.jpg?w=1000&h=563&crop=1')"
-
-    movies = Movie.objects.order_by('?')[:6]
-    moviesList = []
-
-
-    for movie in movies:
-        # print(movie.pk)
-        moviesList.append(
-            {
-                'title': movie.title,
-                # 'release_date': movie.release_date,
-                'vote_average': movie.vote_average,
-                'poster_path': movie.poster_path,
-                'movie_pk': movie.pk,
-            }
-        )
-    return JsonResponse(moviesList, safe=False)
-"""

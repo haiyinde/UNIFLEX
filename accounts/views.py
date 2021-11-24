@@ -39,6 +39,7 @@ def signup(request):
 @require_http_methods(['GET','POST'])
 def login(request):
     if request.user.is_authenticated:
+        print(request.GET)
         return redirect(request.GET.get('next') or 'community:index')
 
     if request.method == 'POST':

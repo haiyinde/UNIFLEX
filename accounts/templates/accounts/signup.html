@@ -1,12 +1,15 @@
 {% extends 'base.html' %}
 {% load bootstrap5 %}
 {% block content %}
-  <h1>Signup</h1>
-  <form action="{% url 'accounts:signup' %}" method="POST">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    {% buttons %}
-      <button type="submit" class="btn btn-primary">Submit</button>
-    {% endbuttons %}
-  </form>
+  <div class="m-3 container-fluid" style="width:45rem; color:white; background-color: rgba( 0, 0, 0, 0.8 )">
+    <h1>회원가입</h1>
+    <form action="{% url 'accounts:signup' %}" method="POST" style="color:white;" class="mt-2">
+      {% csrf_token %}
+      {% bootstrap_form form %}
+      {% buttons %}
+        <button type="submit" class="btn btn-primary btn-m float-right m-1">회원가입 완료!</button>
+      {% endbuttons %}
+    </form>
+      <button class="btn btn-dark btn-m float-right m-1"><a href="{% url 'accounts:login' %}" style="text-decoration:none; color:white">로그인하러 가기!</a></button>  
+  </div>
 {% endblock content %}

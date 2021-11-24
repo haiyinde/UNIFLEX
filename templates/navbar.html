@@ -2,38 +2,51 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css" rel="stylesheet">
 
 <nav class="navbar navbar-expand-custom navbar-mainbg">
-  <a class="navbar-brand navbar-logo" href="{% url 'movies:index' %}">Navbar</a>
-    <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <i class="fas fa-bars text-white"></i>
-    </button>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto">
-        <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
-
-				<li class="nav-item">
-					<a class="nav-link" href="{% url 'community:create' %}"><i class="fas fa-pencil-alt"></i>영화 리뷰 쓰러가기</a>
-				</li>
-				{% comment %} {% if request.user.is_authenticated %} {% endcomment %}
-					<li class="nav-item active">
-						<a class="nav-link" href="{% url 'movies:recommended' %}"><i class="fas fa-user-friends"></i>친구가 좋아하는 영화는?</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{% url 'accounts:logout' %}"><i class="far fa-frown"></i>로그아웃</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="accounts:profile" user.username ><i class="fas fa-user-astronaut"></i>내 프로필</a>
-					</li>
-				{% comment %} {% else %} {% endcomment %}
-					<li class="nav-item">
-						<a class="nav-link" href="accounts:login"><i class="far fa-smile"></i> 로그인</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="accounts:signup"><i class="fas fa-user-plus"></i> 회원 되기!</a>
-					</li>
-				{% comment %} {% endif %} {% endcomment %}
-      </ul>
-  </div>
-</nav>
+        <a class="navbar-brand navbar-logo" href="{% url 'movies:index' %}">UNIFLEX</a>
+        <button class="navbar-toggler shadow-none" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars text-white"></i>
+        </button>
+							
+							
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+								{% if request.resolver_match.app_name == 'movies' %}
+									<form class="form-inline" action="{% url 'movies:search' %}" method="get">
+										<input class="ms-4 form-control mr-lg-4 shadow-none" type="search" placeholder=" 찾고싶은 영화를 검색하고 Enter! _〆(´Д｀ )" aria-label="Search" id="q" name="q"
+											value="{{ q }}" style="width: 330px">
+									</form>
+								{% endif %}
+            <ul class="navbar-nav ml-auto">
+							<div class="hori-selector"><div class="left"></div><div class="right"></div></div>
+							<li class="nav-item">
+									<a class="nav-link" href="{% url 'movies:recommended' %}"><i class="fas fa-user-friends"></i> 친구가 좋아하는 영화는?</a>
+							</li>
+							{% if request.user.is_authenticated %}
+								{% if request.resolver_match.app_name == 'community' %}
+									<li class="nav-item">
+											<a class="nav-link" href="{% url 'community:create' %}"><i class="fas fa-pencil-alt"></i> 영화 리뷰 쓰러가기</a>
+									</li>
+								{% else %}
+									<li class="nav-item">
+											<a class="nav-link" href="{% url 'community:index' %}"><i class="fas fa-pencil-alt"></i> 커뮤니티</a>
+									</li>
+								{% endif %}
+								<li class="nav-item">
+										<a class="nav-link" href="{% url 'accounts:logout' %}"><i class="far fa-frown"></i> 로그아웃</a>
+								</li>
+								<li class="nav-item">
+										<a class="nav-link" href="#"><i class="fas fa-user-astronaut"></i> 내 프로필</a>
+								</li>
+							{% else %}
+								<li class="nav-item">
+										<a class="nav-link" href="{% url 'accounts:login' %}"><i class="far fa-smile"></i> 로그인</a>
+								</li>
+								<li class="nav-item">
+										<a class="nav-link" href="{% url 'accounts:signup' %}"><i class="fas fa-user-plus"></i> 회원 되기!</a>
+								</li>
+							{% endif %}
+            </ul>
+        </div>
+    </nav>
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Roboto');
@@ -121,7 +134,7 @@ i {
 	position: absolute;
 	width: 25px;
 	height: 25px;
-	background-color: #fff;
+	background-color: none;
 	bottom: 10px;
 }
 .hori-selector .right{
@@ -137,7 +150,7 @@ i {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background-color: #5161ce;
+    background-color: none;
 }
 .hori-selector .right:before{
 	bottom: 0;
@@ -249,37 +262,4 @@ $(".navbar-toggler").click(function(){
 	setTimeout(function(){ test(); });
 });
 
-
-
-// --------------add active class-on another-page move----------
-jQuery(document).ready(function($){
-	// Get current path and find target link
-	var path = window.location.pathname.split("/").pop();
-  console.log(path)
-	// Account for home page with empty path
-	if ( path == '' ) {
-		path = 'index.html';
-	}
-
-	var target = $('#navbarSupportedContent ul li a[href="'+path+'"]');
-	// Add active class to target link
-	target.parent().addClass('active');
-});
-
-
-
-// --------------add active class-on another-page move----------
-jQuery(document).ready(function($){
-	// Get current path and find target link
-	var path = window.location.pathname.split("/").pop();
-
-	// Account for home page with empty path
-	if ( path == '' ) {
-		path = 'index.html';
-	}
-
-	var target = $('#navbarSupportedContent ul li a[href="'+path+'"]');
-	// Add active class to target link
-	target.parent().addClass('active');
-});
 </script>
