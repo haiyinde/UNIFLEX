@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% load bootstrap5 %}
 {% block content %}
-  <div style='color:white; font-size:20pt' class="blur">
-    <h1>게시글 </h1>
+  <div class="container"style='color:white; font-size:15pt; background-color:rgba(0,0,0,0.8)'>
+    <h1 class="row mt-5"> 게시글 </h1>
     <p>Movie : {{review.movie.title}}</p>
-    <p>Writer : <a href="{% url 'accounts:profile' user.username %}">{{review.user}}</p></a>
+    <p>Writer : <a href="{% url 'accounts:profile' review.user %}" style="text-decoration:none">{{review.user}}</p></a>
     <div>
       {% comment %} 좋아요 버튼 {% endcomment %}
       <form class="form-inline" action="{% url 'community:likes' review.pk %}" method="POST">
@@ -13,7 +13,7 @@
         {% if user in review.like_users.all %}
         <button class="btn shadow-none"><i class="fas fa-heart" style="color:red; border:none;"></i></button>
         {% else %}
-        <button class="btn shadow-none"><i class="far fa-heart" style="color:black; border:none;"></i></button>
+        <button class="btn shadow-none"><i class="far fa-heart" style="color:red; border:none;"></i></button>
         {% endif %}
         {{ review.like_users.all|length }}
       </form>
@@ -69,7 +69,7 @@
         <button type="submit" class="btn btn-dark btn-m float-right m-1">댓글 달기</button>
       </form>
     {% else %}
-      <a href="account:login">[LOGIN]</a>
+      <a href="accounts:login">[LOGIN]</a>
     {% endif %}
   </div>
   <style>

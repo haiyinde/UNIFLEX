@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
-{% load bootstrap5 %}
+
 {% block content %}
 
   {% if friends %}
     {% if my_friends_likes %}
-      <div class="container ">
-        <div class="row">
+      <div class="container mt-3">
+        <div class="row justify-content-center">
           {% for movie in my_friends_likes %}
-            <div class="card col-12 col-md-6 col-lg-3" sytle="color:white; background-color:rgba(0,0,0,0.8)">
+            <div class="card col-12 col-md-6 col-lg-3 m-1" style="color:white; background-color: rgba(0,0,0,0.8);">
               <a href="{% url 'movies:detail' movie.pk %}">
                 <img src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}" class="card-img-top" alt="...">
               </a>
@@ -17,6 +17,42 @@
               </div>
             </div>
           {% endfor %}
+          {% with res=my_friends_likes|length|add:"-1"|divisibleby:3 %}
+            {% if res %} 
+              <div class="card col-12 col-md-6 col-lg-3 m-1" style="background:none">
+                <div class="card-body" style="background:none">
+                  <h5 class="card-title"></h5>
+                  <p class="card-text"></p>
+                </div>
+              </div>
+              <div class="card col-12 col-md-6 col-lg-3 m-1" style="background:none">
+                <div class="card-body" style="background:block">
+                  <h5 class="card-title"></h5>
+                  <p class="card-text"></p>
+                </div>
+              </div>
+            {% endif %}
+          {% endwith %}
+
+          {% with res=my_friends_likes|length|add:"-2"|divisibleby:3 %}
+            {% if res %} 
+              <div class="card col-12 col-md-6 col-lg-3 m-1" style="background:none">
+                <div class="card-body" style="background:none">
+                  <h5 class="card-title"></h5>
+                  <p class="card-text"></p>
+                </div>
+              </div>
+            {% endif %}
+          {% endwith %}
+
+          {% comment %} {% with res = my_friends_likes.count %}
+            <p>{{res}}</p>
+              
+            {% else %}
+            
+            {% endif %}
+          {% endwith %} {% endcomment %}
+
         </div>
       </div>
     {% comment %} 친구는 있는데 친구가 좋아요 누른 영화가 없다 {% endcomment %}
@@ -50,6 +86,7 @@
 
 
       <!-- <p>아직 친구가 좋아하는 영화가 없네요.. 그러면 같이 볼 영화를 찾아보러 가볼까요??!</p>
+
       <a href="{% url 'movies:random_movie' %}">[Random Movie!]</a> -->
     
     {% endif %}

@@ -51,7 +51,7 @@ def search(request):
     questions = Movie.objects.all()
     q = request.GET.get('q', '')
     if q: 
-        questions = questions.filter(title__icontains=q) # 제목에 q가 포함되어 있는 레코드만 필터링
+        questions = questions.filter(title__icontains=q)
     # paginator = Paginator(questions, 3)
     # page_number = request.GET.get('page')
     # page_obj = paginator.get_page(page_number)
@@ -85,6 +85,7 @@ def likes(request, movie_pk):
         }
         return redirect('movies:detail', movie_pk)
     # login 후 next파라미터에 담긴 url로 이동했을때(GET)
+
     elif request.method == 'GET':
         return redirect('movies:detail', movie_pk)
     # return render(request, 'movies/detail.html', context)
@@ -177,13 +178,16 @@ def test(request):
     movies = Movie.objects.order_by('?')[:4]
     moviesList = []
     for movie in movies:
+        # print(movie.overview)
+        if movie.overview == "":
+            movie.overview = "영화의 줄거리가 없습니다 🤔"
         # print(movie.pk)
         moviesList.append(
             {
                 'title': movie.title,
                 'rating': movie.vote_average,
                 'background': movie.poster_path,
-                'synopsis': movie.overview[:200],
+                'synopsis': movie.overview[:170],
                 'movie_pk': movie.pk,
             }
         )

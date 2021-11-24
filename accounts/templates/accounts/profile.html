@@ -1,11 +1,10 @@
 {% extends 'base.html' %}
-
+<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
 {% block content %}
-
 <div style="color:white;">
-	<h1> {{ person.username }}'s profile</h1>
+	<h1> {{ person.username }}의 프로필</h1>
 	{% with followings=person.followings.all followers=person.followers.all %}
-		<div>
+		<div class="float-right">
 			<div>팔로잉 수 : {{ followings|length }} / 팔로워 수 : {{ followers|length }}</div>
 		</div>
 		{% if user != person %}
@@ -13,9 +12,9 @@
 				<form action="{% url 'accounts:follow' person.pk %}" method="POST">
 					{% csrf_token %}
 					{% if user in followers %}
-						<button>Unfollow</button>
+            <button class="custom-btn btn-16">언팔로우</button>
 					{% else %}
-						<button>follow</button>
+						<button class="custom-btn btn-16">팔로우</button>
 					{% endif %}
 				</form>
 			</div>
@@ -32,32 +31,32 @@
   </ul>
   <section id="first-tab-group" class="tabgroup">
     <div id="tab1">
-     <h2>{{ person.username }}가 좋아하는 영화</h2>
+      <h2>{{ person.username }}가 좋아하는 영화</h2>
         <div class="container">
-        <div class="row justify-content-start">
-          {% for movie in person.like_movies.all %}
-              <div class="card col-4 m-3" style="width: 18rem;">
-                <a href="{% url 'movies:detail' movie.pk %}">
-                <img src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}" class="card-img-top" alt="...">
-                </a>
-                <div class="card-body">
-                <a href="{% url 'movies:detail' movie.pk %}" class="text-decoration-none text-black" style="color:white;">
-                <h5 class="card-title" style="color:white;">{{movie.title}}</h5>
-                </a>
-                {% if movie.overview %}
-                <a href="{% url 'movies:detail' movie.pk %}" class="text-decoration-none text-black">
-                <p class="card-text" style="color:white;">{{movie.overview|truncatechars:100}}</p>
-                </a>
-                {% else %}
-                <a href="{% url 'movies:detail' movie.pk %}" class="text-decoration-none text-black">
-                <p class="card-text" style="color:white;">영화의 overview가 없습니다 🤔</p>
-                </a>
-                {% endif %}
+          <div class="row justify-content-start">
+            {% for movie in person.like_movies.all %}
+                <div class="card col-6" style="width: 18rem;">
+                  <a href="{% url 'movies:detail' movie.pk %}">
+                  <img src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}" class="card-img-top" alt="...">
+                  </a>
+                  <div class="card-body">
+                    <a href="{% url 'movies:detail' movie.pk %}" class="text-decoration-none text-black" style="color:white;">
+                    <h5 class="card-title" style="color:white;">{{movie.title}}</h5>
+                    </a>
+                    {% if movie.overview %}
+                      <a href="{% url 'movies:detail' movie.pk %}" class="text-decoration-none text-black">
+                      <p class="card-text" style="color:white;">{{movie.overview|truncatechars:100}}</p>
+                      </a>
+                    {% else %}
+                      <a href="{% url 'movies:detail' movie.pk %}" class="text-decoration-none text-black">
+                      <p class="card-text" style="color:white;">영화의 overview가 없습니다 🤔</p>
+                      </a>
+                    {% endif %}
+                  </div>
                 </div>
-              </div>
-          {% endfor %}
+            {% endfor %}
+          </div>
         </div>
-      </div>
     </div>
     <div id="tab2">
       <h2>{{ person.username }}가 작성한 게시글</h2>
@@ -99,6 +98,9 @@
 
 
 <style>
+h1 {
+  margin: 3rem 0rem 0rem 0rem;
+}
 * {
     margin: 0;
     padding: 0;
@@ -172,19 +174,70 @@ body {
 }
 
 .tabgroup {
-    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.7);
 }
 
 .tabgroup div {
-    padding: 30px;
+    padding: 5px;
     background: #1f1c4d;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
 }
 
 .clearfix:after {
     content: "";
     display: table;
     clear: both;
+}
+
+.custom-btn {
+  width: 130px;
+  height: 40px;
+  color: #fff;
+  border-radius: 5px;
+  padding: 10px 25px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
+  background: #e0e5ec;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+   box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+   7px 7px 20px 0px rgba(0,0,0,.1),
+   4px 4px 5px 0px rgba(0,0,0,.1);
+  outline: none;
+}
+
+/* 16 */
+.btn-16 {
+  border: none;
+  color: #000;
+}
+.btn-16:after {
+  position: absolute;
+  content: "";
+  width: 0;
+  height: 100%;
+  top: 0;
+  left: 0;
+  direction: rtl;
+  z-index: -1;
+  box-shadow:
+   -7px -7px 20px 0px #fff9,
+   -4px -4px 5px 0px #fff9,
+   7px 7px 20px 0px #0002,
+   4px 4px 5px 0px #0001;
+  transition: all 0.3s ease;
+}
+.btn-16:hover {
+  color: #000;
+}
+.btn-16:hover:after {
+  left: auto;
+  right: 0;
+  width: 100%;
+}
+.btn-16:active {
+  top: 2px;
 }
 
 </style>

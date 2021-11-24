@@ -1,31 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% comment %} 카드 형식, 배경에 영화 포스터, 제목, 작성자만 보이게끔 좋아요 많은 순으로 4개만 출력 {% endcomment %}
-{% comment %}  {% endcomment %}
-  <div class="contain">
-    <div class="row">
-      {% for review in reviews %}
-        <div class="card text-white col-12 col-md-6 col-lg-3" style="background:none;">
-          <img src="https://image.tmdb.org/t/p/w500{{ review.movie.poster_path }}" class="card-img" style="filter: brightness(50%);" alt="...">
-          <div class="card-img-overlay">
-            <p class="card-title">제목 : <a href="{% url 'community:detail' review.pk %}" style="color:white; text-decoration:none">{{review.title}}</a></p>
-
-            <small class="card-footer text-right ">{{review.user}}</small>
-
-          </div>
-        </div>
-      {% endfor %}
-    </div>
-  <div>
-    <h1>Community</h1>
+<div class="container-fluid">
+  <div class="row">
+    <div class="mt-3" style="color:white; font-size:30px">영화 커뮤니티</div>
     {% if user.is_authenticated %}
-      <a href="{% url 'community:create' %}">[CREATE]</a>
-    {% else %}
-      <a href="{% url 'accounts:login' %}">[LOGIN]</a>
+      <div class="row">
+        <button class="btn btn-dark btn-m m-1">
+          <a href="{% url 'community:create' %}" style="color:white; text-decoration:none">리뷰 쓰기</a>
+        </button>
+      </div>
     {% endif %}
-    
-    <hr>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row m-3">
+    {% for review in reviews %}
+      <div class="card text-white col-12 col-md-6 col-lg-3" style="background:none;">
+        <img src="https://image.tmdb.org/t/p/w500{{ review.movie.poster_path }}" class="card-img" style="filter: brightness(50%);" alt="...">
+        <div class="card-img-overlay">
+          <h2 class="card-title">제목:<a href="{% url 'community:detail' review.pk %}" style="color:white; text-decoration:none">{{review.title}}</a></h2>
+
+          <h4 class="card-footer mt-auto">
+            작성자:
+            <a href="{% url 'accounts:profile' review.user.username %}" style="color:white; text-decoration:none">
+            {{review.user}}
+            </a>
+          </h4>
+
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+<div>
+
+  {% if user.is_authenticated %}
+  {% else  %}
+    <a href="{% url 'accounts:login' %}" style="color:white; text-decoration:none">로그인하러!</a>
+  {% endif %}
+  <hr>
 
     {% comment %} {% for review in reviews %}
       <p>Movie : {{review.movie.title}}</p>

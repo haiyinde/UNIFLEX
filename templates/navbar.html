@@ -1,8 +1,10 @@
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css" rel="stylesheet">
+{% load static %}
 
 <nav class="navbar navbar-expand-custom navbar-mainbg">
-        <a class="navbar-brand navbar-logo" href="{% url 'movies:index' %}">UNIFLEX</a>
+        <a class="navbar-brand navbar-logo" href="{% url 'movies:index' %}"><img src="{% static 'movies/favicon.ico' %}" alt="">
+				UNIFLEX</a>
         <button class="navbar-toggler shadow-none" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <i class="fas fa-bars text-white"></i>
         </button>
@@ -34,7 +36,7 @@
 										<a class="nav-link" href="{% url 'accounts:logout' %}"><i class="far fa-frown"></i> 로그아웃</a>
 								</li>
 								<li class="nav-item">
-										<a class="nav-link" href="#"><i class="fas fa-user-astronaut"></i> 내 프로필</a>
+										<a class="nav-link" href="{% url 'accounts:profile' user.username %}"><i class="fas fa-user-astronaut"></i> 내 프로필</a>
 								</li>
 							{% else %}
 								<li class="nav-item">

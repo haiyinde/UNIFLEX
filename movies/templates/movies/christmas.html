@@ -5,46 +5,107 @@
     <div class="form-floating-height:add(3.5rem, $input-height-border)" aria-label="Default select example">
       <select class="form-select" name="state" id="state">
         <option value="nope">12월 25일날 당신은?!😏</option>
-        <option value="alone">혼자서🙋‍♀️</option>
+        <option value="alone" {% if state == "alone" %} selected {% endif %}>혼자서🙋 ♀️</option>
         {% comment %} 💛disable 해도 재밌을지도...? {% endcomment %}
-        <option value="couple" >커플..💑</option> 
-        <option value="friend">친구랑👨🏻‍🤝‍👨🏻</option>
-        <option value="family">가족끼리👨‍👩‍👦</option>
+        <option value="couple" {% if state == "couple" %} selected {% endif %}>커플..💑</option>
+        <option value="friend" {% if state == "friend" %} selected {% endif %}>친구랑👨🏻 🤝 👨🏻</option>
+        <option value="family" {% if state == "family" %} selected {% endif %}>가족끼리👨 👩 👦</option>
       </select>
-    <input type="submit" name="" id="">
+      <button class="custom-btn btn-5 mt-3 mb-3"><span>어떤 영화를 볼까?</span></button>
     </div>
   </form>
-  {{state}}
 
   {% if humor %}
-    <p style="color:white">🎄Christ-mas movie🎬 {{movie.title}}</p>
+    <h4 style="color:white">🎄Christ-mas movie🎬 {{movie.title}}</h4>
     <h3 style="color:white"> {{humor}} </h3>
   {% endif %}
 
-    <div class="container">
-    <div class="row justify-content-start">
+  <div class="container">
+    <div class="row justify-content-center" >
       {% for movie in movies %}
-          <div class="card col-3 m-3" style="width: 18rem;">
+          <div class="card col-3 m-3 mt-3" style="width: 18rem;  background-color:rgba(0,0,0,0.8);">
             <a href="{% url 'movies:detail' movie.pk %}">
             <img src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}" class="card-img-top" alt="...">
             </a>
             <div class="card-body">
-            <a href="{% url 'movies:detail' movie.pk %}" class="text-decoration-none text-black">
-            <h5 class="card-title">{{movie.title}}</h5>
+            <a href="{% url 'movies:detail' movie.pk %}" class=" " style="text-decoration:none; color:white ">
+            <p class="card-title">{{movie.title}}</p>
             </a>
             {% if movie.overview %}
-            <a href="{% url 'movies:detail' movie.pk %}" class="text-decoration-none text-black">
-            <p class="card-text">{{movie.overview|truncatechars:100}}</p>
+            <a href="{% url 'movies:detail' movie.pk %}" class="" style="text-decoration:none; color:white">
+            <h6 class="card-text" style="text-size:2rem;">{{movie.overview|truncatechars:100}}</h6>
             </a>
             {% else %}
-            <a href="{% url 'movies:detail' movie.pk %}" class="text-decoration-none text-black">
-            <p class="card-text">영화의 overview가 없습니다 🤔</p>
+            <a href="{% url 'movies:detail' movie.pk %}" class="" style="text-decoration:none; color:white">
+            <h6 class="card-text">영화의 줄거리가 없습니다 🤔</h6>
             </a>
             {% endif %}
             </div>
           </div>
       {% endfor %}
+      
     </div>
   </div>
-{% endblock content %}
+<style>
+.custom-btn {
+  width: 130px;
+  height: 40px;
+  color: #fff;
+  border-radius: 5px;
+  padding: 10px 25px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
+  background: #e0e5ec;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+   box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+   7px 7px 20px 0px rgba(0,0,0,.1),
+   4px 4px 5px 0px rgba(0,0,0,.1);
+  outline: none;
+}
+.btn-5 {
+  width: 130px;
+  height: 40px;
+  line-height: 42px;
+  padding: 0;
+  border: none;
+  background: rgb(255,27,0);
+background: linear-gradient(0deg, rgba(255,27,0,1) 0%, rgba(251,75,2,1) 100%);
+}
+.btn-5:hover {
+  color: #f0094a;
+  background: transparent;
+   box-shadow:none;
+}
+.btn-5:before,
+.btn-5:after{
+  content:'';
+  position:absolute;
+  top:0;
+  right:0;
+  height:2px;
+  width:0;
+  background: #f0094a;
+  box-shadow:
+   -1px -1px 5px 0px #fff,
+   7px 7px 20px 0px #0003,
+   4px 4px 5px 0px #0002;
+  transition:400ms ease all;
+}
+.btn-5:after{
+  right:inherit;
+  top:inherit;
+  left:0;
+  bottom:0;
+}
+.btn-5:hover:before,
+.btn-5:hover:after{
+  width:100%;
+  transition:800ms ease all;
+}
 
+</style>
+
+{% endblock content %}

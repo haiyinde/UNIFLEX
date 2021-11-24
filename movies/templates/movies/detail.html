@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div class="card mb-3">
-    <div class="row g-0">
-      <div class="col-md-4">
+  <div class="card mt-5"style="color:white; background-color: rgba(0,0,0,0.8);" >
+
+    <div class="row g-0" style="background:none" style="color:white; background-color: rgba(0,0,0,0.8);">
+      <div class="col-md-4 text-center align-self-center" style="color:white; background-color: rgba(0,0,0,0.8);">
         <img src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}" class="img-fluid rounded-start" alt="...">
       </div>
-      <div class="col-md-8">
-        <div class="card-body">
+      <div class="col-md-8" style="color:white; background-color:rgba(0,0,0,0.8);">
+        <div class="card-body" >
           <h5 class="card-title">{{movie.title}}</h5>
           <span class="card-text">
             {% for genre in movie.genres.all %}
@@ -22,9 +23,9 @@
             <form action="{% url 'movies:likes' movie.pk %}" method="POST">
               {% csrf_token %}
               {% if user in movie.like_users.all %}
-                <button class="btn btn-light btn-outline-light shadow-none"><i class="fas fa-heart" style="color:red; border:none;"></i></button>
+                <button class="btn btn-black btn-outline-black shadow-none"><i class="fas fa-heart" style="color:red; border:none;"></i></button>
               {% else %}
-                <button class="btn btn-light btn-outline-light shadow-none"><i class="far fa-heart" style="color:black; border:none;"></i></button>
+                <button class="btn btn-black btn-outline-black shadow-none"><i class="far fa-heart" style="color:red; border:none;"></i></button>
               {% endif %}
             </form>
           </p>
