@@ -5,13 +5,13 @@
     <div class="form-floating-height:add(3.5rem, $input-height-border)" aria-label="Default select example">
       <select class="form-select" name="state" id="state" style="width:30rem">
         <option value="nope">12월 25일날 당신은?!😏</option>
-        <option value="alone" {% if state == "alone" %} selected {% endif %}>혼자서🙋 ♀️</option>
+        <option value="alone" {% if state == "alone" %} selected {% endif %}>혼자서🙋</option>
         {% comment %} 💛disable 해도 재밌을지도...? {% endcomment %}
         <option value="couple" {% if state == "couple" %} selected {% endif %}>커플..💑</option>
         <option value="friend" {% if state == "friend" %} selected {% endif %}>친구랑👨🏻 🤝 👨🏻</option>
         <option value="family" {% if state == "family" %} selected {% endif %}>가족끼리👨 👩 👦</option>
       </select>
-      <button class="custom-btn btn-5 mt-3 mb-3"><span>어떤 영화를 볼까?</span></button>
+      <button class="custom-btn btn-5 mt-3 mb-3" ><span>어떤 영화를 볼까?</span></button>
     </div>
   </form>
 
@@ -66,7 +66,7 @@
   outline: none;
 }
 .btn-5 {
-  width: 130px;
+  width: 150px;
   height: 40px;
   line-height: 42px;
   padding: 0;
