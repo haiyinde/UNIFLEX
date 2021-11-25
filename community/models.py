@@ -1,12 +1,13 @@
 from django.db import models
 from django.conf import settings
 from movies.models import Movie
+from django.core.validators import MaxValueValidator, MinValueValidator
 # from accounts.models import User
 
 class Review(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
-    rank = models.IntegerField()
+    rank = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1),MaxValueValidator(10)], help_text="1~10사이 값으로 입력하세요")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     # 리뷰 쓸 영화

@@ -1,19 +1,13 @@
 {% extends 'base.html' %}
 {% load bootstrap5 %}
 {% block content %}
-  <div class="container">
-    <div class="row justify-content-center">
-      <div style='color:white; font-size:1.5rem; width:45rem; backgroud-color:rgba(0,0,0,0.8);' >
-        <h2 class="mt-3">수정하기</h2>
+  <div class="m-3 container-fluid" style="width:45rem; color:white; background-color: rgba( 0, 0, 0, 0.8 )">
+    <h1>수정하기</h1>
         <form action="{% url 'community:update' review.pk%}" method="POST">
           {% csrf_token %}
           {% bootstrap_form form %}
-          {% buttons %}
-            <button type="submit" class="btn btn-m btn-dark float-right m-1">Submit</button>
-          {% endbuttons %}
+        <button type="submit" class="btn btn-primary btn-m float-right m-1">수정하기</button>
         </form>
-      </div>
-    </div>
-  <a href="{% url 'community:detail' review.pk %}">뒤로가기</a>
+      <button class="btn btn-dark btn-m float-right m-1"><a href="{% url 'community:detail' review.pk %}" style="text-decoration:none; color:white">뒤로가기</a></button>  
+  </div>
 {% endblock %}
-

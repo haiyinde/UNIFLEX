@@ -36,24 +36,5 @@
     </div>
   </div>
 
-  {% comment %} <div class="bg-light bg-gradient">
-    <div class="">
-      <h3>{{movie.title}}</h3>
-      <span>
-        <img src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}" alt="">
-      </span>
-      <span>
-        <p>
-          {% for genre in movie.genres.all %}
-          {{ genre.name }}
-          {% endfor %}
-        </p>
-        <a href="{% url 'movies:index' %}">[INDEX]</a>
-      
-        <p>Popularity : {{movie.popularity}}</p>
-
-      </span>
-    </div>
-  </div> {% endcomment %}
 {% endblock %}
 

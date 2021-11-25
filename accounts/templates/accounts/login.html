@@ -6,7 +6,9 @@
     <form action="" method="POST" class="mt-2" style="color:white;">
       {% csrf_token %}
       {% bootstrap_form form %}
-        <button type="submit" class="btn btn-primary btn-m float-right m-1">로그인</button>
+        <button type="submit" class="btn btn-primary btn-m float-right m-1">
+        로그인
+        </button>
     </form>
         <button class="btn btn-dark btn-m float-right m-1"><a href="{% url 'accounts:signup' %}" style="text-decoration:none; color:white">회원가입하러 가기</a></button>  
   </div>

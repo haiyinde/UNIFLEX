@@ -35,9 +35,11 @@
       <div class="container mt-5">
         <div class="row row-cols-3">
           {% for movie in movies %}
-            <div class="card p-1 bg-light bg-gradient">
-              <movieDetail href="{% url 'movies:detail' movie.pk %}"><img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}" class="card-img-top rounded mx-auto d-block"></movieDetail>
-              <h6 class="card-title text-center fw-bold text-dark mt-1">{{movie.title}} </h6>
+            <div class="card p-1" style="background:none;">
+              <a href="{% url 'movies:detail' movie.pk %}" style="text-decoration:none">
+                <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}" class="card-img-top rounded mx-auto d-block">
+                <h5 class="card-title text-center fw-bold mt-1" style="color:white;">{{movie.title}} </h5>
+              </a>
             </div>
           {% endfor %}
         </div>
