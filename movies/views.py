@@ -52,9 +52,6 @@ def search(request):
     q = request.GET.get('q', '')
     if q: 
         questions = questions.filter(title__icontains=q)
-    # paginator = Paginator(questions, 3)
-    # page_number = request.GET.get('page')
-    # page_obj = paginator.get_page(page_number)
 
     context = {
         'movies' : questions,
@@ -92,50 +89,21 @@ def likes(request, movie_pk):
     # return redirect("accounts:login")
 
 
-# def random_movie(request):
-#     movies = Movie.objects.order_by('?')[:20]
-#     moviesList = []
-
-#     for movie in movies:
-#         moviesList.append(
-#             {
-#                 'title': movie.title,
-#                 'release_date': movie.release_date,
-#                 'vote_average': movie.vote_average,
-#                 'poster_path': movie.poster_path,
-#             }
-#         )
-
-#     return render(request, 'movies/index.html', context)
-
-
-
 def random_movie(request):
     movies = Movie.objects.order_by('?')[:6]
     moviesList = []
 
 
     for movie in movies:
-        # print(movie.pk)
         moviesList.append(
             {
                 'title': movie.title,
-                # 'release_date': movie.release_date,
                 'vote_average': movie.vote_average,
                 'poster_path': movie.poster_path,
                 'movie_pk': movie.pk,
             }
         )
     return JsonResponse(moviesList, safe=False)
-
-
-    # mystery_movies= []
-    # sf_movies = []
-    # docu_movies= []
-    # thriller_movies= []
-    # comedy_movies=[]
-    # family_movies = []
-    # romance_movies= []
 
 
 def christmas(request):
@@ -153,8 +121,8 @@ def christmas(request):
             humor = '달달한 로맨스 영화 어때요?💕'
         elif state == 'friend':
             # SF - 878
-            genre = 27
-            humor = '친구와 SF 세계로! 🛫'
+            genre = 878
+            humor = '친구와 함께 SF 세계로! 🛫'
         elif state == 'family':
             # 가족 - 10751
             genre = 10751
@@ -178,10 +146,8 @@ def test(request):
     movies = Movie.objects.order_by('?')[:4]
     moviesList = []
     for movie in movies:
-        # print(movie.overview)
         if movie.overview == "":
             movie.overview = "영화의 줄거리가 없습니다 🤔"
-        # print(movie.pk)
         moviesList.append(
             {
                 'title': movie.title,

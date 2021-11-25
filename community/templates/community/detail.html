@@ -37,11 +37,6 @@
     <hr>
     <h4><i class="fas fa-comments"> 댓글 {{ comments |length }}</i></h4>
 
-
-    <!-- {% for comment in comments %}
-    <p>{{ comment.content }} / 작성자: <a href="{% url 'accounts:profile' comment.user_id %}">{{ comment.user_id }}</a></p>
-    {% endfor %} -->
-
     <ul>
       {% for comment in comments %}
         <li>
