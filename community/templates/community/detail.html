@@ -1,43 +1,46 @@
 {% extends 'base.html' %}
 {% load bootstrap5 %}
 {% block content %}
-  <div class="container"style='color:white; font-size:15pt; background-color:rgba(0,0,0,0.8)'>
+  <div class="container" style="color:white; font-size: 1.5rem; background-color:rgba(0,0,0,0.8)">
     <h1 class="row mt-5"> 게시글 </h1>
-    <p>Movie : {{review.movie.title}}</p>
-    <p>Writer : <a href="{% url 'accounts:profile' review.user %}" style="text-decoration:none">{{review.user}}</p></a>
-    <div>
-      {% comment %} 좋아요 버튼 {% endcomment %}
-      <form class="form-inline" action="{% url 'community:likes' review.pk %}" method="POST">
-        <span>Title : {{review.title}}</span>
+    <p>영화 제목 : {{review.movie.title}}</p>
+    <p>리뷰 제목 : {{review.title}}</p>
+    <p>작성자 : <a href="{% url 'accounts:profile' review.user %}" style="color: white; text-decoration: none;">{{review.user}}</p></a>
+    <p>평점 : {{review.rank}}</p>
+    <p>{{review.content}}</p>
+    <small class="float-right">작성시간 : {{review.created_at}}</small><br>
+    <small class="float-right">수정시간 : {{review.updated_at}}</small><br>
+
+
+    {% comment %} 좋아요 버튼 {% endcomment %}
+
+      <form action="{% url 'community:likes' review.pk %}" method="POST">
         {% csrf_token %}
-        {% if user in review.like_users.all %}
-        <button class="btn shadow-none"><i class="fas fa-heart" style="color:red; border:none;"></i></button>
-        {% else %}
-        <button class="btn shadow-none"><i class="far fa-heart" style="color:red; border:none;"></i></button>
-        {% endif %}
-        {{ review.like_users.all|length }}
+          {% if user in review.like_users.all %}
+            <button class="btn btn-light btn-outline-dark shadow-none float-left"><i class="fas fa-heart" style="color:red; border:none;"></i>좋아요 {{ review.like_users.all|length }}</button>
+          {% else %}
+            <button class="btn btn-light btn-outline-dark shadow-none float-left"><i class="far fa-heart" style="color:red; border:none;"></i>좋아요 {{ review.like_users.all|length }}</button>
+          {% endif %}
       </form>
-    </div>
-    <p>Rank : {{review.rank}}</p>
-    <p>Content : {{review.content}}</p>
-    <p>Created_at : {{review.created_at}}</p>
-    <p>Updated_at : {{review.updated_at}}</p>
+
+    {% comment %} 커뮤니티로 돌아가기 버튼 {% endcomment %}
+
+      <button class="btn btn-light btn-outline-dark btn-m m-1 float-left"><a href="{% url 'community:index' %}" style="color: black;"><i class="fas fa-arrow-left"></i> 커뮤니티</a></button>
 
     {% comment %} 작성자라면 update 화면 출력{% endcomment %}
     {% if user == review.user %}
-      <a href="{% url 'community:update' review.pk %}">[UPDATE]</a>
-      <form action="{% url 'community:delete' review.pk %}" method='POST'>
+      <button class="btn btn-light btn-outline-dark btn-m m-1 float-right"><a href="{% url 'community:update' review.pk %}" style="color: black;"><i class="fas fa-pencil-alt"></i>수정</a></button>
+      <form action="{% url 'community:delete' review.pk %}" method="POST">
         {% csrf_token %}
-        <input type="submit" value="DELETE">
+        <button type="submit" class="btn btn-light btn-outline-danger btn-m m-1 float-right"><i class="far fa-trash-alt"></i>삭제하기</button>
       </form>
-      {% endif %}
-    <a href="{% url 'community:index' %}">[back]</a>
-
-    <hr>
-    <h4>댓글 목록</h4>
-    {% if comments %}
-      <p><b>{{ comments |length }}개의 댓글이 있습니다.</b></p>
     {% endif %}
+    
+    
+    <br>
+    <hr>
+    <h4><i class="fas fa-comments"> 댓글 {{ comments |length }}</i></h4>
+
 
     <!-- {% for comment in comments %}
     <p>{{ comment.content }} / 작성자: <a href="{% url 'accounts:profile' comment.user_id %}">{{ comment.user_id }}</a></p>
@@ -56,7 +59,7 @@
           {% endif %}
         </li>
       {% empty %}
-        <p>댓글이 없어요..</p>
+        <p>댓글이 없어요 😔</p>
       {% endfor %}
     </ul>
     <hr>
@@ -66,7 +69,7 @@
       <form action="{% url 'community:comment' review.pk %}" method="POST"> 
         {% csrf_token %}
         {% bootstrap_form comment_form %}
-        <button type="submit" class="btn btn-dark btn-m float-right m-1">댓글 달기</button>
+        <button type="submit" class="btn btn-light btn-m float-right m-1"><i class="fas fa-comment-dots"></i>댓글 달기</button>
       </form>
     {% else %}
       <a href="accounts:login">[LOGIN]</a>

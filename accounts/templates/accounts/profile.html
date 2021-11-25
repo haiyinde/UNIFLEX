@@ -3,12 +3,14 @@
 {% block content %}
 <div style="color:white;">
 	<h1> {{ person.username }}의 프로필</h1>
+  {% comment %} 팔로잉/팔로워 수 확인 {% endcomment %}
 	{% with followings=person.followings.all followers=person.followers.all %}
-		<div class="float-right">
+		<div class="float-right" style="color:#98927C;">
 			<div>팔로잉 수 : {{ followings|length }} / 팔로워 수 : {{ followers|length }}</div>
 		</div>
 		{% if user != person %}
 			<div>
+      {% comment %} 팔로우 버튼 {% endcomment %}
 				<form action="{% url 'accounts:follow' person.pk %}" method="POST">
 					{% csrf_token %}
 					{% if user in followers %}
@@ -21,21 +23,24 @@
 		{% endif %}
 	{% endwith %}
 
-
+{% comment %} 프로필 인덱스 {% endcomment %}
 <div class="wrapper">
   <ul class="tabs clearfix" data-tabgroup="first-tab-group">
-    <li><a href="#tab1" class="active">LIKE Movies</a></li>
-    <li><a href="#tab2">My Reviews</a></li>
-    <li><a href="#tab3">My Comments</a></li>
-    <li><a href="#tab4">LIKE Reviews</a></li>
+    <li><a href="#tab1" class="active">LIKE MOVIES</a></li>
+    <li><a href="#tab2">MY REVIEWS</a></li>
+    <li><a href="#tab3">My COMMENTS</a></li>
+    <li><a href="#tab4">LIKE REVIEWS</a></li>
   </ul>
+  {% comment %} LIKE Movies {% endcomment %}
   <section id="first-tab-group" class="tabgroup">
     <div id="tab1">
       <h2>{{ person.username }}가 좋아하는 영화</h2>
         <div class="container">
           <div class="row justify-content-start">
             {% for movie in person.like_movies.all %}
-                <div class="card col-6" style="width: 18rem;">
+
+                {% comment %} 유저가 좋아하는 영화 표시 => 클릭시 영화 디테일로 {% endcomment %}
+                <div class="card col-6 border-secondary p-2" style="width: 18rem;">
                   <a href="{% url 'movies:detail' movie.pk %}">
                   <img src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}" class="card-img-top" alt="...">
                   </a>
@@ -58,40 +63,65 @@
           </div>
         </div>
     </div>
+
+    {% comment %} User가 작성한 게시글 => 클릭시 해당 게시글로 {% endcomment %}
     <div id="tab2">
       <h2>{{ person.username }}가 작성한 게시글</h2>
-      {% for review in person.review_set.all %}
-        <div class="card" style="width:18rem;">
-          <div class="card-body">
-            <h5 class="card-title">{{review.movie.title}}</h5>
-            <h5 class="card-title">{{review.title}}</h5>
-            <p class="card-text">{{review.content}}</p>
-          </div>
+      <div class="container">
+        <div class="row justify-content-center">
+          {% for review in person.review_set.all %}
+      
+            <div class="card col-4 m-3 border-secondary" style="width:30rem;">
+              <a href="{% url 'community:detail' review.pk %}" style="text-decoration:none; color:white"> 
+                <div class="card-body">
+                  <h5 class="card-title">영화:{{review.movie.title}}</h5>
+                  <p class="card-title">제목:{{review.title|slice:"10" }}</p>
+                </div>
+              </a>
+            </div>
+          {% endfor %}    
         </div>
-      {% endfor %}    
+      </div>
     </div>
+
+    {% comment %} User가 작성한 댓글 => 클릭시 해당 게시글로 {% endcomment %}
     <div id="tab3">
       <h2>{{ person.username }}가 작성한 댓글</h2>
-      {% for comment in person.comment_set.all %}
-        <div class="card" style="width:18rem;">
-          <div class="card-body">
-            <h5 class="card-title">{{ comment.review.title }}</h5>
-            <p class="card-text">{{ comment.content }}</p>
-          </div>
+      <div class="container">
+        <div class="row justify-content-center">
+          {% for comment in person.comment_set.all %}
+            <div class="card col-4 m-3 border-secondary" style="width:18rem;">
+              <a href="{% url 'community:detail' comment.review.pk %}" style="text-decoration:none; color:white">
+                <div class="card-body">
+                  <h5 class="card-title">제목:{{ comment.review.title }}</h5>
+                  <p class="card-text">댓글:{{ comment.content }}</p>
+                </div>
+              </a>
+            </div>
+          {% endfor %}
         </div>
-      {% endfor %}
+      </div>
     </div>
+
+    {% comment %} User가 좋아요 누른 게시글 => 클릭시 해당 게시글로 {% endcomment %}
     <div id="tab4">
-     <h2>{{ person.username }}가 좋아요를 누른 게시글</h2>
-      {% for review in person.like_reviews.all %}
-       <div class="card" style="width:18rem;">
-          <div class="card-body">
-            <h5 class="card-title">{{review.movie.title}}</h5>
-            <p class="card-text">{{review.title}}</p>
-            <h5 class="card-footer text-end">{{review.user}}</h5>
-          </div>
+      <h2>{{ person.username }}가 좋아요를 누른 게시글</h2>
+      <div class="container">
+        <div class="row justify-content-center">
+
+          {% for review in person.like_reviews.all %}
+            <div class="card col-4 m-3 border-secondary" style="width:18rem;">
+              <a href="{% url 'community:detail' review.pk %}" style="text-decoration:none; color:white">
+                <div class="card-body">
+                  <h5 class="card-title">영화:{{review.movie.title}}</h5>
+                  <p class="card-text">제목:{{review.title}}</p>
+                  <p class="card-footer text-end">작성자:{{review.user}}</p>
+                </div>
+              </a>
+            </div>
+          {% endfor %}    
         </div>
-      {% endfor %}    
+      </div>
     </div>
   </section>
 </div>
@@ -100,6 +130,7 @@
 <style>
 h1 {
   margin: 3rem 0rem 0rem 0rem;
+  color: #98927C;
 }
 * {
     margin: 0;
@@ -116,7 +147,7 @@ body {
     width: 80%;
     font-family: sans-serif;
     color: #98927C;
-    font-size: 14px;
+    font-size: 1rem;
     line-height: 24px;
     max-width: 1200px;
     min-width: 600px;
@@ -130,7 +161,7 @@ body {
 }
 
 .tabs a {
-    font-size:0.5rem;
+    font-size:0.9rem;
     display: block;
     text-align: center;
     text-decoration: none;
