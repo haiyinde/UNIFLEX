@@ -198,7 +198,7 @@ p {
   randomButton.addEventListener('click', function (event) {
     axios({
       method: 'get',
-      url: 'http://127.0.0.1:8000/movies/test/'
+      url: 'http://127.0.0.1:8000/movies/random_movie/'
     })
     .then(function (res) {
       const moviesList = res.data

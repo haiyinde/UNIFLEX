@@ -89,23 +89,6 @@ def likes(request, movie_pk):
     # return redirect("accounts:login")
 
 
-def random_movie(request):
-    movies = Movie.objects.order_by('?')[:6]
-    moviesList = []
-
-
-    for movie in movies:
-        moviesList.append(
-            {
-                'title': movie.title,
-                'vote_average': movie.vote_average,
-                'poster_path': movie.poster_path,
-                'movie_pk': movie.pk,
-            }
-        )
-    return JsonResponse(moviesList, safe=False)
-
-
 def christmas(request):
     movies_list = Movie.objects.all()
     state = request.GET.get('state')
@@ -142,7 +125,7 @@ def christmas(request):
     return render(request, 'movies/christmas.html')
     
 
-def test(request):
+def random_movie(request):
     movies = Movie.objects.order_by('?')[:4]
     moviesList = []
     for movie in movies:
